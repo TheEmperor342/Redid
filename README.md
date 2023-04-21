@@ -1,5 +1,5 @@
 # Reddit clone
-I made this to practice nodejs
+I am making this to practice nodejs
 
 Uses:
 - nodejs
