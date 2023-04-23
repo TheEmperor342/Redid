@@ -1,8 +1,12 @@
 # Reddit clone
-I am making this to practice nodejs
+WIP
 
-Uses:
-- nodejs
+## Stack
+- mongoDB 
 - express
+- nodejs
+- EJS
+- bcrypt
 - jsonwebtoken
+- dotenv
 - typescript
