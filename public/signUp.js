@@ -11,7 +11,7 @@ sendBtn.addEventListener("click", async () => {
 			password: password.textContent,
 		}),
 	};
-	const postReq = await fetch("/api/signUp", options);
+	const postReq = await fetch("/api/sign-up", options);
 	const response = await postReq.json();
 	console.log(response);
 });
