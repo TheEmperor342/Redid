@@ -12,7 +12,7 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 	res.setHeader("content-type", "application/json");
 
 	try {
-		const usernameExists = await Account.exists({ username: "emperor" });
+		const usernameExists = await Account.exists({ username: username });
 		console.log(!usernameExists);
 		if (usernameExists) {
 			res.json(JSON.stringify({ status: "error", message: "username exists" }));
