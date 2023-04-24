@@ -14,8 +14,7 @@ const accountsSchema = new mongoose.Schema({
 
 accountsSchema.pre("save", async function (next) {
 	try {
-		const salt = await bcrypt.genSalt(8);
-		const hashedPassword = await bcrypt.hash(this.password, salt);
+		const hashedPassword = await bcrypt.hash(this.password, 10);
 		this.password = hashedPassword;
 		next();
 	} catch (err) {
