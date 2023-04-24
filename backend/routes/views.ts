@@ -6,7 +6,7 @@ router.get("/", (req: Request, res: Response) => {
 	res.render("index.ejs");
 });
 router.get("/sign-up", (req: Request, res: Response) => {
-	res.render("signUp/index.ejs");
+	res.render("sign-up.ejs");
 });
 
 export default router;
