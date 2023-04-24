@@ -1,3 +1,4 @@
+### Sign up
 POST http://localhost:3000/api/sign-up
 Content-Type: application/json
 
@@ -7,4 +8,14 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/test-accounts
+GET http://localhost:3000/
+
+### Sign in
+POST http://localhost:3000/api/sign-in
+Content-Type: application/json
+
+{
+  "username": "emperor",
+  "password": "password"
+}
+
