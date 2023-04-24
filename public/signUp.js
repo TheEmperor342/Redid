@@ -7,8 +7,8 @@ sendBtn.addEventListener("click", async () => {
 		method: "POST",
 		headers: { "content-type": "application/json" },
 		body: JSON.stringify({
-			username: username.textContent,
-			password: password.textContent,
+			username: username.value,
+			password: password.value,
 		}),
 	};
 	const postReq = await fetch("/api/sign-up", options);
