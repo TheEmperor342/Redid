@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 
-import signUp from "./backend/routes/sign-up";
+import signUp from "./backend/routes/api/sign-up";
 import views from "./backend/routes/views";
 
 require("dotenv").config();
