@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import Account from "../schema/accounts";
+import Account from "../../schema/accounts";
 
 require("dotenv").config();
 const router = express.Router();
@@ -11,15 +11,22 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 
 	res.setHeader("content-type", "application/json");
 
+	if (!username || !password) {
+		res
+			.status(400)
+			.json({ status: "error", message: "username or password not provided." });
+		return;
+	}
+
 	try {
 		const usernameExists = await Account.exists({ username: username });
-		console.log(!usernameExists);
 		if (usernameExists) {
-			res.json(JSON.stringify({ status: "error", message: "username exists" }));
+			res.status(409).json({ status: "error", message: "username exists" });
 			return;
 		}
 	} catch (err) {
 		console.log(err);
+		res.status(500).json({ status: "error", message: String(err) });
 		return;
 	}
 
@@ -29,12 +36,10 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 	});
 
 	try {
-		const result = await account.save();
+		await account.save();
 	} catch (err) {
-		res.json(
-			JSON.stringify({ status: "error", message: "failed to save document" })
-		);
 		console.log(err);
+		res.status(500).json({ status: "error", message: String(err) });
 		return;
 	}
 	const token = jwt.sign(
@@ -43,7 +48,7 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 		process.env.JWT_KEY
 	);
 
-	res.json(JSON.stringify({ status: "ok", token: token }));
+	res.status(201).json({ status: "ok", token: token });
 });
 
 export default router;
