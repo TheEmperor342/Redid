@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import Account from "../../schema/accounts";
-import { sign } from "../../utils/utils";
+import { sign } from "../../utils";
 
 const router = express.Router();
 

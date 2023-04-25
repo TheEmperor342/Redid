@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import bcrypt from "bcrypt";
-import { sign } from "../../utils/utils";
+import { sign } from "../../utils";
 import Accounts from "../../schema/accounts";
 const router = Router();
 
