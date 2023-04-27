@@ -4,10 +4,12 @@ import bcrypt from "bcrypt";
 const accountsSchema = new mongoose.Schema({
 	username: {
 		type: String,
+		unique: true,
 		required: true,
 	},
 	password: {
 		type: String,
+		select: false,
 		required: true,
 	},
 });
@@ -22,5 +24,5 @@ accountsSchema.pre("save", async function (next) {
 	}
 });
 
-const Account = mongoose.model("Account", accountsSchema);
-export default Account;
+const Accounts = mongoose.model("account", accountsSchema);
+export default Accounts;

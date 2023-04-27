@@ -1,9 +1,9 @@
 import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import Account from "../../schema/accounts";
+import { Accounts, RefreshTokens } from "../../schema";
 
 type jwtPayloadOverride = jwt.JwtPayload & {
-	id: string;
+	userId: string;
 };
 const router = Router();
 
@@ -20,14 +20,20 @@ router.delete("/", (req: Request, res: Response) => {
 				res.status(403).json({ status: "error", message: "forbidden" });
 				return;
 			}
-			const userDb = await Account.findOne({
-				_id: (user as jwtPayloadOverride).id,
+			const account = await Accounts.findOne({
+				_id: (user as jwtPayloadOverride).userId,
 			});
-			if (!userDb) {
+
+			if (!account) {
 				res.status(404).json({ status: "error", message: "user not found" });
 				return;
 			}
-			await Account.findByIdAndDelete((user as jwtPayloadOverride).id);
+			await Accounts.findByIdAndDelete((user as jwtPayloadOverride).userId);
+			console.log(user);
+			await RefreshTokens.deleteMany({
+				owner: (user as jwtPayloadOverride).userId,
+			});
+
 			res.status(200).json({ status: "ok" });
 		});
 	} catch (err) {

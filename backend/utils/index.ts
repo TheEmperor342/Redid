@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 
-interface IObjectToSign {
-	[key: string]: any;
-}
-export const sign = (obj: IObjectToSign, expiry: string = "30d"): string =>
-	jwt.sign(obj, process.env.JWT_KEY!, { expiresIn: expiry });
+export const sign = (
+	obj: { [key: string]: any },
+	options: { expiry: string; key: string } = {
+		expiry: "15m",
+		key: process.env.JWT_KEY!,
+	}
+): string => jwt.sign(obj, options.key, { expiresIn: options.expiry });
