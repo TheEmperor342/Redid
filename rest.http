@@ -1,5 +1,5 @@
 ### Sign up
-POST http://localhost:3000/api/sign-up
+POST http://localhost:3000/api/auth/sign-up
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 GET http://localhost:3000/
 
 ### Sign in
-POST http://localhost:3000/api/sign-in
+POST http://localhost:3000/api/auth/sign-in
 Content-Type: application/json
 
 {
@@ -20,5 +20,5 @@ Content-Type: application/json
 }
 
 ### Delete Account
-DELETE http://localhost:3000/api/delete-user/
+DELETE http://localhost:3000/api/auth/delete-user/
 Authorization: Bearer <token>
