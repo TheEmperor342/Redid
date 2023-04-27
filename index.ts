@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-
-import apiRoutes from "./backend/routes/api";
+import apiRoutes from "./backend/routes";
 
 require("dotenv").config();
 const app = express();
