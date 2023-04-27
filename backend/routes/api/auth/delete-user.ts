@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { Accounts, RefreshTokens } from "../../schema";
+import { Accounts, RefreshTokens } from "../../../schema";
 
 type jwtPayloadOverride = jwt.JwtPayload & {
 	userId: string;
