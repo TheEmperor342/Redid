@@ -1,3 +1,4 @@
 node_modules
 pass
 .env
+build
