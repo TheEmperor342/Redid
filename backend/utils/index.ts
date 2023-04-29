@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 // Sign a JWT
 export const sign = (username: string, ownerId: any, tokenId: any): string =>
