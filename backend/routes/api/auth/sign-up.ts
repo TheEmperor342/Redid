@@ -32,21 +32,17 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 			username,
 			password,
 		});
-		const refreshTokenDoc = new Tokens({
-			ownerID: accountDoc._id,
+		const tokenDoc = new Tokens({
+			owner: accountDoc._id,
 		});
 
 		// Save documents
 		await accountDoc.save();
-		await refreshTokenDoc.save();
+		await tokenDoc.save();
 
 		// Create tokens
-		const accessToken = sign({ username, userId: accountDoc._id });
-		const refreshToken = sign(
-			{ username, userId: accountDoc._id, tokenId: refreshTokenDoc._id },
-			{ expiry: "7d", key: process.env.REFRESH_TOKEN_KEY! }
-		);
-		res.status(201).json({ status: "ok", accessToken, refreshToken });
+		const token = sign(username, accountDoc._id, tokenDoc._id);
+		res.status(201).json({ status: "ok", token });
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ status: "error", message: String(err) });

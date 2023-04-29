@@ -1,23 +1,22 @@
 import { Router, Request, Response } from "express";
 import { decodeToken } from "../../../utils";
-import { Accounts, Tokens } from "../../../schema";
-
+import { Tokens } from "../../../schema";
 const router = Router();
 
 router.delete("/", async (req: Request, res: Response) => {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) {
-		res.status(401).json({ status: "error", message: "unauthorized" });
+		res.status(400).json({ status: "error", message: "bad token" });
 		return;
 	}
 	const token = authHeader.split(" ")[1];
 
+	const tokenDecoded = decodeToken(token);
+	if (tokenDecoded === null) {
+		res.status(403).json({ status: "error", message: "forbidden" });
+		return;
+	}
 	try {
-		const tokenDecoded = decodeToken(token);
-		if (tokenDecoded === null) {
-			res.status(400).json({ status: "error", message: "bad token" });
-			return;
-		}
 		const isTokenInDb = !(
 			(await Tokens.findOne({ _id: tokenDecoded.tokenId })) === null
 		);
@@ -25,24 +24,10 @@ router.delete("/", async (req: Request, res: Response) => {
 			res.status(400).json({ status: "error", message: "bad token" });
 			return;
 		}
-
-		const account = await Accounts.findOne({
-			_id: tokenDecoded.ownerId,
-		});
-
-		if (!account) {
-			res.status(404).json({ status: "error", message: "user not found" });
-			return;
-		}
-		await Accounts.findByIdAndDelete(tokenDecoded.ownerId);
-		await Tokens.deleteMany({
-			owner: tokenDecoded.ownerId,
-		});
-
+		await Tokens.findOneAndDelete({ _id: tokenDecoded.tokenId });
 		res.status(200).json({ status: "ok" });
 	} catch (err) {
 		res.status(500).json({ status: "error", message: String(err) });
-		return;
 	}
 });
 
