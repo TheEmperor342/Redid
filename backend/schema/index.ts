@@ -1,4 +1,4 @@
 import Accounts from "./accounts";
-import RefreshTokens from "./refreshTokens";
+import Tokens from "./tokens";
 
-export { Accounts, RefreshTokens };
+export { Accounts, Tokens };
