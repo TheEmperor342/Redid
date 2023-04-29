@@ -26,17 +26,17 @@ router.post("/", async (req: Request, res: Response) => {
 		const tokens = await Tokens.find({ owner: account._id }).sort({
 			_id: -1,
 		});
-		console.log("Tokens: \n", tokens);
-		console.log("Slice:\n", tokens.slice(5));
 		if (tokens.length > 5)
-			await Tokens.deleteMany({ _id: { $in: tokens.slice(5) } });
+			await Tokens.deleteMany({
+				_id: { $in: tokens.slice(5).map(el => el._id) },
+			});
 
 		const tokensDoc = new Tokens({ owner: account._id });
 		await tokensDoc.save();
 
-		const accessToken = sign({ username, userId: account._id });
+		const token = sign(username, account._id, tokensDoc._id);
 
-		res.status(200).json({ status: "ok", accessToken });
+		res.status(200).json({ status: "ok", token });
 	} catch (err) {
 		res.status(500).json({ status: "error", message: String(err) });
 	}

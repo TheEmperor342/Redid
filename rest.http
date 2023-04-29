@@ -22,3 +22,11 @@ Content-Type: application/json
 ### Delete Account
 DELETE http://localhost:3000/api/auth/delete-user/
 Authorization: Bearer <token>
+
+### Logout
+DELETE http://localhost:3000/api/auth/logout
+Authorization: Bearer <token>
+
+### Logout All
+DELETE http://localhost:3000/api/auth/logout-all
+Authorization: Bearer <token>

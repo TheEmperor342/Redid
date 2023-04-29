@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { signIn, signUp, deleteUser, views } from "./backend/routes";
+import routers from "./backend/routes";
 
 require("dotenv").config();
 const app = express();
@@ -12,10 +12,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/public", express.static("public"));
 
-app.use("/api/auth/sign-in", signIn);
-app.use("/api/auth/sign-up", signUp);
-app.use("/api/auth/delete-user", deleteUser);
-app.use("/", views);
+app.use("/api/auth/sign-in", routers.signIn);
+app.use("/api/auth/sign-up", routers.signUp);
+app.use("/api/auth/delete-user", routers.deleteUser);
+app.use("/api/auth/logout", routers.logout);
+app.use("/api/auth/logout-all", routers.logoutAll);
+app.use("/", routers.views);
 
 mongoose
 	.connect(process.env.MONGODB_CONN_STR!, { dbName: "RedditClone" })
