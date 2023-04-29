@@ -1,5 +1,5 @@
 import express from "express";
-import { Accounts, RefreshTokens } from "../../../schema";
+import { Accounts, Tokens } from "../../../schema";
 import { sign } from "../../../utils";
 
 const router = express.Router();
@@ -32,7 +32,7 @@ router.post("/", async (req: express.Request, res: express.Response) => {
 			username,
 			password,
 		});
-		const refreshTokenDoc = new RefreshTokens({
+		const refreshTokenDoc = new Tokens({
 			ownerID: accountDoc._id,
 		});
 

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { sign } from "../../../utils";
-import { Accounts, RefreshTokens } from "../../../schema";
+import { Accounts, Tokens } from "../../../schema";
 const router = Router();
 
 router.post("/", async (req: Request, res: Response) => {
@@ -9,30 +9,34 @@ router.post("/", async (req: Request, res: Response) => {
 	const password: string = (req.body.password as String).trim();
 
 	try {
-		const accountDoc = await Accounts.findOne({ username })
+		const account = await Accounts.findOne({ username })
 			.select("+password")
 			.exec();
 
-		if (!accountDoc) {
+		if (!account) {
 			res.status(404).json({ status: "error", message: "user not found" });
 			return;
 		}
-		const match = await bcrypt.compare(password, accountDoc.password);
+		const match = await bcrypt.compare(password, account.password);
 		if (!match) {
 			res.status(400).json({ status: "error", message: "invalid credentials" });
 			return;
 		}
 
-		const refreshTokenDoc = new RefreshTokens({ owner: accountDoc._id });
-		await refreshTokenDoc.save();
+		const tokens = await Tokens.find({ owner: account._id }).sort({
+			_id: -1,
+		});
+		console.log("Tokens: \n", tokens);
+		console.log("Slice:\n", tokens.slice(5));
+		if (tokens.length > 5)
+			await Tokens.deleteMany({ _id: { $in: tokens.slice(5) } });
 
-		const accessToken = sign({ username, userId: accountDoc._id });
-		const refreshToken = sign(
-			{ username, userId: accountDoc._id, tokenId: refreshTokenDoc._id },
-			{ expiry: "7d", key: process.env.REFRESH_TOKEN_KEY! }
-		);
+		const tokensDoc = new Tokens({ owner: account._id });
+		await tokensDoc.save();
 
-		res.status(200).json({ status: "ok", accessToken, refreshToken });
+		const accessToken = sign({ username, userId: account._id });
+
+		res.status(200).json({ status: "ok", accessToken });
 	} catch (err) {
 		res.status(500).json({ status: "error", message: String(err) });
 	}
