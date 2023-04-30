@@ -1,5 +1,8 @@
+@token = <token>
+@port = 3000
+
 ### Sign up
-POST http://localhost:3000/api/auth/sign-up
+POST http://localhost:{{port}}/api/auth/sign-up
 Content-Type: application/json
 
 {
@@ -8,10 +11,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/
+GET http://localhost:{{port}}/
 
 ### Sign in
-POST http://localhost:3000/api/auth/sign-in
+POST http://localhost:{{port}}/api/auth/sign-in
 Content-Type: application/json
 
 {
@@ -20,13 +23,13 @@ Content-Type: application/json
 }
 
 ### Delete Account
-DELETE http://localhost:3000/api/auth/delete-user/
-Authorization: Bearer <token>
+DELETE http://localhost:{{port}}/api/auth/delete-user/
+Authorization: Bearer {{token}}
 
 ### Logout
-DELETE http://localhost:3000/api/auth/logout
-Authorization: Bearer <token>
+DELETE http://localhost:{{port}}/api/auth/logout
+Authorization: Bearer {{token}}
 
 ### Logout All
-DELETE http://localhost:3000/api/auth/logout-all
-Authorization: Bearer <token>
+DELETE http://localhost:{{port}}/api/auth/logout-all
+Authorization: Bearer {{token}}
