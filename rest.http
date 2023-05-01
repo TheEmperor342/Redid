@@ -10,9 +10,6 @@ Content-Type: application/json
   "password": "password"
 }
 
-###
-GET http://localhost:{{port}}/
-
 ### Sign in
 POST http://localhost:{{port}}/api/auth/sign-in
 Content-Type: application/json

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import deleteUserController from "../../../controllers/api/auth/deleteUserController";
+import deleteUserController from "../../controllers/api/auth/deleteUserController";
 
 const router = Router();
 
