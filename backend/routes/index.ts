@@ -1,8 +1,8 @@
-import signIn from "./api/auth/sign-in";
-import signUp from "./api/auth/sign-up";
-import deleteUser from "./api/auth/delete-user";
-import logout from "./api/auth/logout";
-import logoutAll from "./api/auth/logoutAll";
+import signIn from "./auth/sign-in";
+import signUp from "./auth/sign-up";
+import deleteUser from "./auth/delete-user";
+import logout from "./auth/logout";
+import logoutAll from "./auth/logoutAll";
 import views from "./views";
 
 import { Router } from "express";
