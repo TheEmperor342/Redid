@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { Accounts, Tokens } from "../../../models";
-import { sign } from "../../../utils";
+import { Accounts, Tokens } from "../../models";
+import { sign } from "../../utils";
 import bcrypt from "bcrypt";
 
 export default {
