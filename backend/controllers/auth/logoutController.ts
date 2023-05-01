@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { decodeToken } from "../../../utils";
-import { Tokens } from "../../../models";
+import { decodeToken } from "../../utils";
+import { Tokens } from "../../models";
 
 export default {
 	delete: async (req: Request, res: Response) => {
