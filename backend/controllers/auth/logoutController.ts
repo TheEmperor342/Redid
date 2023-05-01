@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { decodeToken } from "../../utils";
+import { verifyToken, jwtPayloadOverride } from "../../utils";
 import { Tokens } from "../../models";
 
 export default {
@@ -11,20 +11,16 @@ export default {
 		}
 		const token = authHeader.split(" ")[1];
 
-		const tokenDecoded = decodeToken(token);
-		if (tokenDecoded === null) {
-			res.status(403).json({ status: "error", message: "forbidden" });
-			return;
-		}
 		try {
-			const isTokenInDb = !(
-				(await Tokens.findOne({ _id: tokenDecoded.tokenId })) === null
-			);
-			if (!isTokenInDb) {
-				res.status(400).json({ status: "error", message: "bad token" });
+			const tokenDecoded = await verifyToken(token);
+
+			if (typeof tokenDecoded[0] === "number") {
+				res.status(tokenDecoded[0]).json(tokenDecoded[1]);
 				return;
 			}
-			await Tokens.findOneAndDelete({ _id: tokenDecoded.tokenId });
+			await Tokens.findOneAndDelete({
+				_id: (tokenDecoded as jwtPayloadOverride).tokenId,
+			});
 			res.status(200).json({ status: "ok" });
 		} catch (err) {
 			res.status(500).json({ status: "error", message: String(err) });
