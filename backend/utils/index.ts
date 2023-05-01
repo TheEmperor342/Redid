@@ -1,18 +1,31 @@
 import jwt from "jsonwebtoken";
+import { Tokens } from "../models";
 
 // Sign a JWT
 export const sign = (username: string, ownerId: any, tokenId: any): string =>
 	jwt.sign({ username, ownerId, tokenId }, process.env.JWT_KEY!);
 
 // Decode a JWT
-type jwtPayloadOverride = jwt.JwtPayload & {
+export type jwtPayloadOverride = jwt.JwtPayload & {
 	ownerId: any;
 	tokenId: any;
 };
-export function decodeToken(token: string): jwtPayloadOverride | null {
+export async function verifyToken(
+	token: string
+): Promise<jwtPayloadOverride | [number, { [key: string]: string }]> {
+	let tokenDecoded: jwtPayloadOverride;
 	try {
-		return jwt.verify(token, process.env.JWT_KEY!) as jwtPayloadOverride;
+		tokenDecoded = jwt.verify(
+			token,
+			process.env.JWT_KEY!
+		) as jwtPayloadOverride;
 	} catch (err) {
-		return null;
+		return [400, { status: "error", message: "bad token" }];
 	}
+	const isTokenInDb = !(
+		(await Tokens.findOne({ _id: tokenDecoded.tokenId })) === null
+	);
+	if (!isTokenInDb) return [400, { status: "error", message: "bad token" }];
+
+	return tokenDecoded;
 }

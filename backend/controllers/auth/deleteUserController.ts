@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { decodeToken } from "../../utils";
+import { verifyToken, jwtPayloadOverride } from "../../utils";
 import { Accounts, Tokens } from "../../models";
 
 export default {
@@ -12,30 +12,26 @@ export default {
 		const token = authHeader.split(" ")[1];
 
 		try {
-			const tokenDecoded = decodeToken(token);
-			if (tokenDecoded === null) {
-				res.status(400).json({ status: "error", message: "bad token" });
-				return;
-			}
-			const isTokenInDb = !(
-				(await Tokens.findOne({ _id: tokenDecoded.tokenId })) === null
-			);
-			if (!isTokenInDb) {
-				res.status(400).json({ status: "error", message: "bad token" });
+			const tokenDecoded = await verifyToken(token);
+
+			if (typeof tokenDecoded[0] === "number") {
+				res.status(tokenDecoded[0]).json(tokenDecoded[1]);
 				return;
 			}
 
 			const account = await Accounts.findOne({
-				_id: tokenDecoded.ownerId,
+				_id: (tokenDecoded as jwtPayloadOverride).ownerId,
 			});
 
 			if (!account) {
 				res.status(404).json({ status: "error", message: "user not found" });
 				return;
 			}
-			await Accounts.findByIdAndDelete(tokenDecoded.ownerId);
+			await Accounts.findByIdAndDelete(
+				(tokenDecoded as jwtPayloadOverride).ownerId
+			);
 			await Tokens.deleteMany({
-				owner: tokenDecoded.ownerId,
+				owner: (tokenDecoded as jwtPayloadOverride).ownerId,
 			});
 
 			res.status(200).json({ status: "ok" });

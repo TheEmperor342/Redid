@@ -8,6 +8,14 @@ export default {
 		const username: string = (req.body.username as String).trim();
 		const password: string = (req.body.password as String).trim();
 
+		if (username === "" || password === "") {
+			res.status(400).json({
+				status: "error",
+				message: "username or password not provided.",
+			});
+			return;
+		}
+
 		try {
 			const account = await Accounts.findOne({ username })
 				.select("+password")
