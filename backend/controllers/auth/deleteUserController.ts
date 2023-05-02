@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { verifyToken, jwtPayloadOverride } from "../../utils";
-import { Accounts, Tokens } from "../../models";
+import { Accounts, Tokens, Posts, Guilds } from "../../models";
 
 export default {
 	delete: async (req: Request, res: Response) => {
@@ -31,6 +31,12 @@ export default {
 				(tokenDecoded as jwtPayloadOverride).ownerId
 			);
 			await Tokens.deleteMany({
+				owner: (tokenDecoded as jwtPayloadOverride).ownerId,
+			});
+			await Posts.deleteMany({
+				owner: (tokenDecoded as jwtPayloadOverride).ownerId,
+			});
+			await Guilds.deleteMany({
 				owner: (tokenDecoded as jwtPayloadOverride).ownerId,
 			});
 
