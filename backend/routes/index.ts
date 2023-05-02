@@ -5,6 +5,7 @@ import logout from "./auth/logout";
 import logoutAll from "./auth/logoutAll";
 
 import posts from "./posts/posts";
+import guilds from "./guilds";
 
 import views from "./views";
 
@@ -17,6 +18,7 @@ router.use("/api/auth/delete-user", deleteUser);
 router.use("/api/auth/logout", logout);
 router.use("/api/auth/logout-all", logoutAll);
 router.use("/api/posts", posts);
+router.use("/api/guilds", guilds);
 router.use("/", views);
 
 export default router;

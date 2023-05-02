@@ -40,3 +40,16 @@ Content-Type: application/json
   "title": "What even is lorem ipsum",
   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id interdum velit laoreet id donec ultrices tincidunt arcu non. Ac ut consequat semper viverra. Tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Tellus in metus vulputate eu scelerisque felis. Nec nam aliquam sem et tortor. Ultricies mi quis hendrerit dolor magna eget. Libero nunc consequat interdum varius. Tortor at risus viverra adipiscing at. Etiam sit amet nisl purus in mollis nunc sed. Auctor eu augue ut lectus arcu bibendum at varius vel. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Ac auctor augue mauris augue neque gravida in fermentum et. Sed arcu non odio euismod. Tincidunt dui ut ornare lectus sit amet est placerat. Urna condimentum mattis pellentesque id nibh tortor. Facilisis leo vel fringilla est. Sit amet nisl purus in mollis nunc sed id."
 }
+
+### Create Guild
+POST http://localhost:{{port}}/api/guilds
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "test1"
+}
+
+### Delete Guild
+DELETE http://localhost:{{port}}/api/guilds/test1
+Authorization: Bearer {{token}}
