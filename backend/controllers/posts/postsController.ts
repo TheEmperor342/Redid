@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { jwtPayloadOverride, verifyToken } from "../utils";
-import { Posts } from "../models";
+import { jwtPayloadOverride, verifyToken } from "../../utils";
+import { Posts } from "../../models";
 
 export default {
 	post: async (req: Request, res: Response) => {
