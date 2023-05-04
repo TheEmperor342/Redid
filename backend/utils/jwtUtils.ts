@@ -8,7 +8,7 @@ export const sign = (username: string, ownerId: any, tokenId: any): string =>
 // Decode a JWT
 export async function verifyToken(
 	token: string
-): Promise<jwtPayloadOverride | [number, { [key: string]: string }]> {
+): Promise<jwtPayloadOverride | [number, string]> {
 	let tokenDecoded: jwtPayloadOverride;
 	try {
 		tokenDecoded = jwt.verify(
@@ -16,12 +16,12 @@ export async function verifyToken(
 			process.env.JWT_KEY!
 		) as jwtPayloadOverride;
 	} catch (err) {
-		return [400, { status: "error", message: "bad token" }];
+		return [400, "bad token"];
 	}
 	const isTokenInDb = !(
 		(await Tokens.findOne({ _id: tokenDecoded.tokenId })) === null
 	);
-	if (!isTokenInDb) return [400, { status: "error", message: "bad token" }];
+	if (!isTokenInDb) return [400, "bad token"];
 
 	return tokenDecoded;
 }
