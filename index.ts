@@ -1,6 +1,7 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import router from "./backend/routes";
+import { HttpError, errorHandler } from "./backend/utils";
 
 require("dotenv").config();
 const app = express();
@@ -13,6 +14,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static("public"));
 
 app.use("/", router);
+
+app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
+	console.log(error.message, error.code);
+	res
+		.status(error.code || 500)
+		.json({ status: "error", message: error.message });
+});
 
 mongoose
 	.connect(process.env.MONGODB_CONN_STR!, { dbName: "RedditClone" })
