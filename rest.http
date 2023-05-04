@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "username": "emperor",
-  "password": "sadf"
+  "password": "password"
 }
 
 ### Delete Account
