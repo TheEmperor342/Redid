@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
 import { jwtPayloadOverride } from "../types";
-import { Guilds } from "../models";
+import { Guilds, Posts } from "../models";
 
 const post = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
@@ -46,6 +46,7 @@ const deleteGuild = async (req: Request, res: Response) => {
 		throw new HttpError("user is not the owner of the guild", 403);
 
 	await Guilds.deleteOne({ _id: guild._id });
+	await Posts.deleteMany({ guild: guild._id });
 	res.status(200).json({ status: "ok" });
 };
 
