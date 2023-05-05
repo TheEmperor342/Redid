@@ -6,6 +6,9 @@ import { Posts } from "../../models";
 const post = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
+	if (!req.body.title || !req.body.content)
+		throw new HttpError("title or content not provided", 400);
+
 	const title = (req.body.title as String).trim();
 	const content = (req.body.content as String).trim();
 
