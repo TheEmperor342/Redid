@@ -5,6 +5,9 @@ import { Guilds } from "../models";
 
 const post = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+
+	if (!req.body.name) throw new HttpError("guild name not provided", 400);
+
 	const guildName = (req.body.name as String).trim();
 
 	if (guildName === "") throw new HttpError("guild name not provided", 400);
