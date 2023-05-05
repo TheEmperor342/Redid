@@ -1,13 +1,10 @@
 import { Request, Response } from "express";
-import { verifyToken, HttpError, errorHandler } from "../../utils";
+import { HttpError, errorHandler } from "../../utils";
 import { jwtPayloadOverride } from "../../types";
 import { Posts } from "../../models";
 
 const post = errorHandler(async (req: Request, res: Response) => {
-	const authHeader = req.headers.authorization;
-	if (!authHeader) throw new HttpError("unauthorized", 401);
-
-	const token = authHeader.split(" ")[1];
+	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
 	const title = (req.body.title as String).trim();
 	const content = (req.body.content as String).trim();
@@ -19,13 +16,8 @@ const post = errorHandler(async (req: Request, res: Response) => {
 
 	if (content.length > 1000) throw new HttpError("content too long", 400);
 
-	const tokenDecoded = await verifyToken(token);
-
-	if (typeof tokenDecoded[0] === "number")
-		throw new HttpError(tokenDecoded[1], tokenDecoded[0]);
-
 	const postDoc = new Posts({
-		poster: (tokenDecoded as jwtPayloadOverride).ownerId,
+		poster: tokenDecoded.ownerId,
 		title,
 		content,
 	});
