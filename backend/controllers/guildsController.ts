@@ -1,26 +1,17 @@
 import { Request, Response } from "express";
-import { verifyToken, HttpError, errorHandler } from "../utils";
+import { HttpError, errorHandler } from "../utils";
 import { jwtPayloadOverride } from "../types";
 import { Guilds } from "../models";
 
 const post = errorHandler(async (req: Request, res: Response) => {
-	const authHeader = req.headers.authorization;
-	if (!authHeader) throw new HttpError("unauthorized", 401);
-	const token = authHeader.split(" ")[1];
-
+	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 	const guildName = (req.body.name as String).trim();
 
 	if (guildName === "") throw new HttpError("guild name not provided", 400);
-
 	if (guildName.length > 16) throw new HttpError("guild name too long", 400);
 
-	const tokenDecoded = await verifyToken(token);
-
-	if (typeof tokenDecoded[0] === "number")
-		throw new HttpError(tokenDecoded[1], tokenDecoded[0]);
-
 	const guildsCreatedByUser = await Guilds.find({
-		owner: (tokenDecoded as jwtPayloadOverride).ownerId,
+		owner: tokenDecoded.ownerId,
 	});
 
 	if (guildsCreatedByUser.length >= 5)
@@ -31,7 +22,7 @@ const post = errorHandler(async (req: Request, res: Response) => {
 	if (guildExists) throw new HttpError("guild exists", 409);
 
 	const guild = new Guilds({
-		owner: (tokenDecoded as jwtPayloadOverride).ownerId,
+		owner: tokenDecoded.ownerId,
 		name: guildName,
 	});
 
@@ -41,21 +32,14 @@ const post = errorHandler(async (req: Request, res: Response) => {
 });
 
 const deleteGuild = async (req: Request, res: Response) => {
-	const authHeader = req.headers.authorization;
-	if (!authHeader) throw new HttpError("unauthorized", 401);
-	const token = authHeader.split(" ")[1];
+	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
 	const name = req.params.name;
-
-	const tokenDecoded = await verifyToken(token);
-
-	if (typeof tokenDecoded[0] === "number")
-		throw new HttpError(tokenDecoded[1], tokenDecoded[0]);
 
 	const guild = await Guilds.findOne({ name });
 	if (guild === null) throw new HttpError("guild not found", 404);
 
-	if (guild.owner?.toString() !== (tokenDecoded as jwtPayloadOverride).ownerId)
+	if (guild.owner?.toString() !== tokenDecoded.ownerId)
 		throw new HttpError("user is not the owner of the guild", 403);
 
 	await Guilds.deleteOne({ _id: guild._id });

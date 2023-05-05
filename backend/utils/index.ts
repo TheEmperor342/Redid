@@ -1,4 +1,4 @@
-import { sign, verifyToken } from "./jwtUtils";
+import { sign } from "./jwtUtils";
 import { errorHandler, HttpError } from "./errorHandler";
 
-export { sign, verifyToken, errorHandler, HttpError };
+export { sign, errorHandler, HttpError };
