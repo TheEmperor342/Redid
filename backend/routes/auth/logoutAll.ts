@@ -1,8 +1,8 @@
 import { Router } from "express";
-import logoutController from "../../controllers/auth/logoutController";
+import logoutAllController from "../../controllers/auth/logoutAllController";
 import { verifyTokenM } from "../../middlewares";
 const router = Router();
 
-router.delete("/", verifyTokenM, logoutController.delete);
+router.delete("/", verifyTokenM, logoutAllController.delete);
 
 export default router;
