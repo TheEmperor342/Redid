@@ -1,8 +1,9 @@
 import { Router } from "express";
 import guildsController from "../controllers/guildsController";
+import { verifyTokenM } from "../middlewares";
 const router = Router();
 
-router.post("/", guildsController.post);
-router.delete("/:name", guildsController.delete);
+router.post("/", verifyTokenM, guildsController.post);
+router.delete("/:name", verifyTokenM, guildsController.delete);
 
 export default router;
