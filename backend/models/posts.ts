@@ -1,15 +1,23 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
-	poster: {
+	posterId: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		ref: "accounts",
 	},
-	guild: {
+	guildId: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
 		ref: "guilds",
+	},
+	guild: {
+		type: String,
+		required: true,
+	},
+	poster: {
+		type: String,
+		required: true,
 	},
 	title: { type: String, required: true },
 	content: { type: String },
