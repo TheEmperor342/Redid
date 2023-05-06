@@ -24,8 +24,10 @@ const post = errorHandler(async (req: Request, res: Response) => {
 	if (!guildExists) throw new HttpError("guild does not exist", 404);
 
 	const postDoc = new Posts({
-		poster: tokenDecoded.ownerId,
-		guild: guildExists._id,
+		posterId: tokenDecoded.ownerId,
+		guildId: guildExists._id,
+		poster: tokenDecoded.username,
+		guild,
 		title,
 		content,
 	});

@@ -17,7 +17,7 @@ const deleteUser = errorHandler(async (req: Request, res: Response) => {
 		owner: tokenDecoded.ownerId,
 	});
 	await Posts.deleteMany({
-		owner: tokenDecoded.ownerId,
+		posterId: tokenDecoded.ownerId,
 	});
 	await Guilds.deleteMany({
 		owner: tokenDecoded.ownerId,

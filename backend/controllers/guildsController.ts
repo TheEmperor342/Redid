@@ -46,7 +46,7 @@ const deleteGuild = async (req: Request, res: Response) => {
 		throw new HttpError("user is not the owner of the guild", 403);
 
 	await Guilds.deleteOne({ _id: guild._id });
-	await Posts.deleteMany({ guild: guild._id });
+	await Posts.deleteMany({ guildId: guild._id });
 	res.status(200).json({ status: "ok" });
 };
 
