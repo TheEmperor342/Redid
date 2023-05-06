@@ -34,7 +34,7 @@ const post = errorHandler(async (req: Request, res: Response) => {
 	res.status(201).json({ status: "ok" });
 });
 
-const deleteGuild = async (req: Request, res: Response) => {
+const deleteGuild = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
 	const name = req.params.name;
@@ -48,6 +48,6 @@ const deleteGuild = async (req: Request, res: Response) => {
 	await Guilds.deleteOne({ _id: guild._id });
 	await Posts.deleteMany({ guildId: guild._id });
 	res.status(200).json({ status: "ok" });
-};
+});
 
 export default { post, delete: deleteGuild };
