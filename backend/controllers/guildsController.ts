@@ -34,6 +34,8 @@ const post = errorHandler(async (req: Request, res: Response) => {
 	res.status(201).json({ status: "ok" });
 });
 
+// ================== //
+
 const deleteGuild = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -50,4 +52,25 @@ const deleteGuild = errorHandler(async (req: Request, res: Response) => {
 	res.status(200).json({ status: "ok" });
 });
 
-export default { post, delete: deleteGuild };
+// ================== //
+
+const get = errorHandler(async (req: Request, res: Response) => {
+	const number: number = Number(req.query.number ?? 5);
+	if (isNaN(number))
+		throw new HttpError("Please provide an appropriate number", 400);
+	if (number < 1 || number > 15) throw new HttpError("number cannot be < 1 or > 15", 400);
+
+	const posts = await Guilds.find().sort({ _id: -1 }).limit(number);
+
+	res.status(200).json({
+		status: "ok",
+		data: posts.map((el) => {
+			return {
+				owner: el.owner,
+				name: el.name,
+			};
+		}),
+	});
+});
+
+export default { get, post, delete: deleteGuild };
