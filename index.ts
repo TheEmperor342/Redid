@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import router from "./backend/routes";
-import { HttpError, errorHandler } from "./backend/utils";
+import { HttpError } from "./backend/utils";
 
 require("dotenv").config();
 const app = express();
@@ -19,7 +19,7 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
 	console.log(error.message, error.code);
 	res
 		.status(error.code || 500)
-		.json({ status: "error", message: error.message });
+		.json({ status: "error", message: error.message || "Internet server error" });
 });
 
 mongoose

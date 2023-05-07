@@ -37,6 +37,49 @@ const post = errorHandler(async (req: Request, res: Response) => {
 	res.status(201).json({ status: "ok" });
 });
 
+// ================== //
+
+const deletePost = errorHandler(async (req: Request, res: Response) => {
+	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+
+	const postId = req.params.postId;
+
+	const post = await Posts.findOne({ _id: postId });
+	if (post === null) throw new HttpError("post not found", 404);
+
+	if (post.posterId.toString() !== tokenDecoded.ownerId)
+		throw new HttpError("user is not the owner of the post", 403);
+
+	await Posts.deleteMany({ _id: post._id });
+	res.status(200).json({ status: "ok" });
+});
+
+// ================== //
+
+const get = errorHandler(async (req: Request, res: Response) => {
+	const number = Number(req.query.number ?? 5);
+	if (isNaN(number))
+		throw new HttpError("Please provide an appropriate number", 400);
+	if (number < 1 || number > 15) throw new HttpError("number cannot be < 1 or > 15", 400);
+
+	const posts = await Posts.find().sort({ _id: -1 }).limit(number);
+
+	res.status(200).json({
+		status: "ok",
+		data: posts.map((el) => {
+			return {
+				_id: el._id,
+				poster: el.poster,
+				guild: el.guild,
+				title: el.title,
+				content: el.content,
+			};
+		}),
+	});
+});
+
 export default {
+	get,
 	post,
+	delete: deletePost,
 };
