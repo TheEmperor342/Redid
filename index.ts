@@ -16,7 +16,7 @@ app.use("/public", express.static("public"));
 app.use("/", router);
 
 app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
-	console.log(error.message, error.code);
+	console.error(error.message, error.code);
 	res
 		.status(error.code || 500)
 		.json({ status: "error", message: error.message || "Internet server error" });
