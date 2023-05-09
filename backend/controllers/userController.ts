@@ -15,7 +15,7 @@ const getPosts = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
 	const netPosts = await Posts.find({ posterId: tokenDecoded.ownerId });
-	let posts: {[key: string]: TPost[]} = {};
+	let posts: { [key: string]: TPost[] } = {};
 
 	for (let post of netPosts) {
 		const guild = post.guild;
@@ -32,7 +32,7 @@ const getPosts = errorHandler(async (req: Request, res: Response) => {
 			posts[guild] = [postWithoutGuild];
 	}
 
-	res.status(200).json({status: "ok", data: posts});
+	res.status(200).json({ status: "ok", data: posts });
 });
 
 export default { getGuilds, getPosts };
