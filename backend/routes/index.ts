@@ -4,7 +4,7 @@ import deleteUser from "./auth/delete-user";
 import logout from "./auth/logout";
 import logoutAll from "./auth/logoutAll";
 
-import posts from "./posts/posts";
+import posts from "./posts";
 import guilds from "./guilds";
 
 import views from "./views";

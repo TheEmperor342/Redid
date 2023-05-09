@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { HttpError, errorHandler } from "../../utils";
-import { jwtPayloadOverride } from "../../types";
-import { Posts, Guilds } from "../../models";
+import { HttpError, errorHandler } from "../utils";
+import { jwtPayloadOverride } from "../types";
+import { Posts, Guilds } from "../models";
 
 const post = errorHandler(async (req: Request, res: Response) => {
 	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
