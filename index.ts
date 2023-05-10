@@ -1,12 +1,10 @@
 import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
-import router from "./backend/routes";
-import { HttpError } from "./backend/utils";
+import router from "./api/routes";
+import { HttpError } from "./api/utils";
 
 require("dotenv").config();
 const app = express();
-
-app.set("view engine", "ejs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

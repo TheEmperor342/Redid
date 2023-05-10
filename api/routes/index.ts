@@ -9,8 +9,6 @@ import guilds from "./guilds";
 
 import user from "./user";
 
-import views from "./views";
-
 import { Router } from "express";
 const router = Router();
 
@@ -22,6 +20,5 @@ router.use("/api/auth/logout-all", logoutAll);
 router.use("/api/posts", posts);
 router.use("/api/guilds", guilds);
 router.use("/api/user", user);
-router.use("/", views);
 
 export default router;

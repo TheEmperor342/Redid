@@ -1,4 +1,4 @@
-@token = <token> 
+@token = <token>
 @port = 3000
 
 ### Sign up
@@ -48,7 +48,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "test3"
+  "name": "test"
 }
 
 ### Delete Guild
@@ -56,7 +56,7 @@ DELETE http://localhost:{{port}}/api/guilds/:guildName
 Authorization: Bearer {{token}}
 
 ### Delete Post
-DELETE http://localhost:{{port}}/api/posts/:postid
+DELETE http://localhost:{{port}}/api/posts/:postId
 Authorization: Bearer {{token}}
 
 ### Get Posts
@@ -72,3 +72,9 @@ Authorization: Bearer {{token}}
 ### Get self posts
 GET http://localhost:{{port}}/api/user/posts
 Authorization: Bearer {{token}}
+
+### Get a specific user's posts
+GET http://localhost:{{port}}/api/user/:user/posts
+
+### Get a specific user's guilds
+GET http://localhost:{{port}}/api/user/:user/guilds
