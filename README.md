@@ -5,7 +5,6 @@ WIP
 - mongoDB 
 - express
 - nodejs
-- EJS
 - bcrypt
 - jsonwebtoken
 - dotenv
