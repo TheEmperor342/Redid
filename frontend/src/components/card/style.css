@@ -1,0 +1,9 @@
+.card {
+	background-color: hsl(0, 0%, 78%);
+	border-radius: 15px;
+	width: 25vw;
+	padding: 3rem;
+}
+.cardTopInfo {
+	font-size: .9rem;
+}
