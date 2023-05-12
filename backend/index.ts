@@ -2,12 +2,14 @@ import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import router from "./api/routes";
 import { HttpError } from "./api/utils";
+import cors from "cors";
 
 require("dotenv").config();
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use("/public", express.static("public"));
 
