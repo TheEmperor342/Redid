@@ -1,10 +1,46 @@
+import { useEffect, useState } from "react";
 import Card from "./components/card/card";
 import Navbar from "./components/navbar";
 
-export default () => 
-<>
-	<Navbar />
-	<div className="content">
-		<Card user="emperor" guild="test" title="This is a test post" content="What you call Linux is actually GNU/Linux or GNU plus Linux. Linux is the kernel, not the whole operating system. The GNU system, developed by the GNU Project, is a vital part of the complete OS. The version of GNU widely used today is often called Linux, but it's essentially GNU with Linux added, or GNU/Linux. Many users are not aware that they are running a modified version of the GNU system, with the Linux kernel handling resource allocation. Linux distributions are actually distributions of GNU/Linux."/>
-	</div>
-</> 
+interface IPosts {
+	_id: string;
+	poster: string;
+	guild: string;
+	title: string;
+	content: string;
+}
+
+const API = "http://localhost:3000";
+
+export default () => {
+	const [data, setData] = useState<IPosts[]>([]);
+	const [error, setError] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		fetch(`${API}/api/posts`, { mode: "cors" })
+			.then(res => {
+				if (res.ok) return res.json();
+				else throw res;
+			})
+			.then(json => {
+				setData(json.data);
+			})
+			.catch(err => {
+				console.log(err);
+				setError(true);
+			})
+			.finally(() => setIsLoading(false));
+	}, [])
+
+	return (<>
+		<Navbar />
+		<div className="content">
+			{isLoading && <h1>Loading</h1>}
+			{error && <h1>Error</h1>}
+			{data.map(el =>
+				<Card key={el._id} poster={el.poster} guild={el.guild} title={el.title} content={el.content} />
+			)}
+		</div>
+	</>);
+}
