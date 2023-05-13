@@ -2,18 +2,19 @@ import { useEffect, useState } from "react";
 import Card from "./components/card/card";
 import Navbar from "./components/navbar";
 
-interface IPosts {
+interface IPost {
 	_id: string;
 	poster: string;
 	guild: string;
 	title: string;
 	content: string;
+	likes: number;
 }
 
 const API = "http://localhost:3000";
 
 export default () => {
-	const [data, setData] = useState<IPosts[]>([]);
+	const [data, setData] = useState<IPost[]>([]);
 	const [error, setError] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -39,7 +40,7 @@ export default () => {
 			{isLoading && <h1>Loading</h1>}
 			{error && <h1>Error</h1>}
 			{data.map(el =>
-				<Card key={el._id} poster={el.poster} guild={el.guild} title={el.title} content={el.content} />
+				<Card key={el._id} poster={el.poster} guild={el.guild} title={el.title} content={el.content} likes={el.likes}/>
 			)}
 		</div>
 	</>);
