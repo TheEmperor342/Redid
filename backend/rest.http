@@ -78,3 +78,11 @@ GET http://localhost:{{port}}/api/user/:user/posts
 
 ### Get a specific user's guilds
 GET http://localhost:{{port}}/api/user/:user/guilds
+
+### Like Post
+GET http://localhost:{{port}}/api/posts/:id/like
+Authorization: Bearer {{token}}
+
+### Unlike Post
+GET http://localhost:{{port}}/api/posts/:id/unlike
+Authorization: Bearer {{token}}

@@ -21,6 +21,13 @@ const postSchema = new mongoose.Schema({
 	},
 	title: { type: String, required: true },
 	content: { type: String },
+	likedBy: {
+		type: [{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "accounts",
+		}],
+		default: [],
+	},
 });
 
 const Posts = mongoose.model("post", postSchema);

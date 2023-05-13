@@ -12,6 +12,7 @@ export interface TPost {
 	poster: string;
 	title: string;
 	content: string | undefined;
+	likes: number;
 };
 
 export interface PostDoc extends mongoose.Document {
@@ -21,6 +22,7 @@ export interface PostDoc extends mongoose.Document {
 	guild: string;
 	title: string;
 	content: string | undefined;
+	likedBy: mongoose.Types.ObjectId[];
 };
 
 export interface GuildDoc extends mongoose.Document {
