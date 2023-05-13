@@ -39,7 +39,7 @@ const getUserPosts = errorHandler(async (req: Request, res: Response) => {
 	res.status(200).json({ status: "ok", data: posts });
 });
 
-/* /api/user/:user/guilds*/
+/* /api/user/:user/guilds */
 const getUserGuilds = errorHandler(async (req: Request, res: Response) => {
 	const user = req.params.user;
 
@@ -61,7 +61,8 @@ const beautifyPosts = (netPosts: PostDoc[]): { [key: string]: TPost[] } => {
 			postId: post._id,
 			poster: post.poster,
 			title: post.title,
-			content: post.content
+			content: post.content,
+			likes: (post.likedBy ?? []).length,
 		};
 
 		if (guild in posts)

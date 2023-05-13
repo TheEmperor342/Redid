@@ -30,6 +30,7 @@ const post = errorHandler(async (req: Request, res: Response) => {
 		guild,
 		title,
 		content,
+		likedBy: [],
 	});
 
 	await postDoc.save();
@@ -73,13 +74,56 @@ const get = errorHandler(async (req: Request, res: Response) => {
 				guild: el.guild,
 				title: el.title,
 				content: el.content,
+				likes: el.likedBy.length,
 			};
 		}),
 	});
+});
+
+// ================== //
+
+// POST /api/posts/:id/like/
+// Authorization: Bearer <token>
+const likePost = errorHandler(async (req: Request, res: Response) => {
+	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+
+	const postExists = await Posts.exists({ _id: req.params.id });
+
+	if (postExists === null)
+		throw new HttpError("Post not found", 404);
+
+	const updatedLikeDoc = await Posts.findOneAndUpdate(
+		{ _id: req.params.id },
+		{ $addToSet: { likedBy: req.params.id } },
+		{ new: true, upsert: true },
+	);
+
+	res.status(200).json({ status: "ok" });
+});
+
+// POST /api/posts/:id/like/
+// Authorization: Bearer <token>
+const unlikePost = errorHandler(async (req: Request, res: Response) => {
+	const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+
+	const postExists = await Posts.exists({ _id: req.params.id });
+
+	if (postExists === null)
+		throw new HttpError("Post not found", 404);
+
+	const updatedLikeDoc = await Posts.findOneAndUpdate(
+		{ _id: req.params.id },
+		{ $pull: { likedBy: { $in: [req.params.id] } } },
+		{ new: true },
+	);
+
+	res.status(200).json({ status: "ok" });
 });
 
 export default {
 	get,
 	post,
 	delete: deletePost,
+	likePost,
+	unlikePost,
 };
