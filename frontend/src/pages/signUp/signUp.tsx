@@ -1,13 +1,20 @@
-// TODO: Redirect to home page, css
-
 import { ChangeEvent, useCallback, useState } from "react";
 import API from "../../apiPath";
 import "./index.css";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { signUpProps } from "../../types";
 
-export default () => {
+export default ({ token, setToken }: signUpProps) => {
+
+	const location = useLocation();
+	
+	if (token !== null) 
+		return <Navigate to="/" state={{ from: location }} replace/>
+
 	const [usernameVal, setUsernameVal] = useState("");
 	const [passwordVal, setPasswordVal] = useState("");
 	const [error, setError] = useState({ error: false, message: "" });
+	const navigate = useNavigate();
 
 	const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setUsernameVal(e.target.value);
@@ -30,23 +37,21 @@ export default () => {
 				},
 				body: JSON.stringify({ username, password })
 			});
+
 			if (!res.ok) {
 				setError({
 					error: true,
 					message: res.statusText === "Conflict" ? "User exists" : "Unknown error occured"
 				});
+
 				return;
 			}
 			const json = await res.json();
-			localStorage.setItem("token", json.token);
+			setToken(json.token);
+			navigate("/");
 		}
 		catch (err: any) {
-			if (err.name === "QuotaExceedError" || err.name === "SecurityError")
-				setError({
-					error: true,
-					message: "Your account has been created, but the token couldn't be written to the localStorage."
-				});
-			else setError({ error: true, message: "Unknown error occured" });
+			setError({ error: true, message: "Unknown error occured" });
 		}
 	}, []);
 

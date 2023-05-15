@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../../components/card/card";
 import API from "../../apiPath";
 import "./index.css";
+import { Token } from "../../types";
 
 interface IPost {
 	_id: string;
@@ -12,7 +13,7 @@ interface IPost {
 	likes: number;
 }
 
-export default () => {
+export default ({ token }: {token: Token}) => {
 	const [data, setData] = useState<IPost[]>([]);
 	const [error, setError] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
