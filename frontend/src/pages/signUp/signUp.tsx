@@ -51,6 +51,7 @@ export default ({ token, setToken }: signUpProps) => {
 			navigate("/");
 		}
 		catch (err: any) {
+			console.log(err);
 			setError({ error: true, message: "Unknown error occured" });
 		}
 	}, []);
