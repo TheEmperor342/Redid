@@ -19,7 +19,17 @@ export interface IPost {
 	title: string;
 	content: string;
 	likes: number;
-}
+};
+
+interface ICardProps {
+	id: string;
+	token: string;
+	title: string;
+	content: string;
+	poster: string;
+	guild: string;
+	likes: number;
+};
 
 export interface ErrorsState {
 	id: string;

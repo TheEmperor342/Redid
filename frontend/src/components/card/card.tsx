@@ -1,15 +1,8 @@
 import react from "react";
 import "./style.css";
+import { ICardProps } from "../../types";
 
-interface ICardProps {
-	title: string;
-	content: string;
-	poster: string;
-	guild: string;
-	likes: number;
-}
-
-const Card: react.FC<ICardProps> = ({ title, content, poster, guild, likes }) => {
+const Card: react.FC<ICardProps> = ({ id, token, title, content, poster, guild, likes }) => {
 	return (
 		<div className="card">
 			<div className="cardTextContainer">
@@ -18,7 +11,10 @@ const Card: react.FC<ICardProps> = ({ title, content, poster, guild, likes }) =>
 				<p className="cardContent">{content}</p>
 			</div>
 			<div className="cardUpDownButtons">
-				<button>Like -- {likes}</button>
+				{token !== null ?
+					<button>Likes -- {likes}</button> :
+					<p>Likes -- {likes}</p>
+				}
 			</div>
 		</div>);
 }
