@@ -94,7 +94,7 @@ const likePost = errorHandler(async (req: Request, res: Response) => {
 
 	const updatedLikeDoc = await Posts.findOneAndUpdate(
 		{ _id: req.params.id },
-		{ $addToSet: { likedBy: req.params.id } },
+		{ $addToSet: { likedBy: tokenDecoded.ownerId } },
 		{ new: true, upsert: true },
 	);
 
@@ -111,9 +111,9 @@ const unlikePost = errorHandler(async (req: Request, res: Response) => {
 	if (postExists === null)
 		throw new HttpError("Post not found", 404);
 
-	const updatedLikeDoc = await Posts.findOneAndUpdate(
+	await Posts.findOneAndUpdate(
 		{ _id: req.params.id },
-		{ $pull: { likedBy: { $in: [req.params.id] } } },
+		{ $pull: { likedBy: tokenDecoded.ownerId } },
 		{ new: true },
 	);
 
