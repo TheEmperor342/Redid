@@ -13,7 +13,7 @@ export default ({ token, newError }: homeProps) => {
 	useEffect(() => {
 		setHasMounted(true);
 		fetch(`${API}/api/posts`, { mode: "cors" })
-			.then(res => { 
+			.then(res => {
 				if (res.ok) return res.json();
 				else throw res;
 			})
@@ -30,7 +30,11 @@ export default ({ token, newError }: homeProps) => {
 	useEffect(() => {
 		if (!hasMounted) return;
 
-		newError({id: self.crypto.randomUUID(), title: "Couldn't load posts", error: "Couldn't fetch posts from the servers. Maybe try again."})
+		newError({
+			id: self.crypto.randomUUID(),
+			title: "Couldn't load posts",
+			error: "Couldn't fetch posts from the servers. Maybe try again."
+		})
 	}, [error])
 
 	return (
@@ -38,7 +42,16 @@ export default ({ token, newError }: homeProps) => {
 			{isLoading && <h1>Loading</h1>}
 			{error && <h1>Error</h1>}
 			{data.map(el =>
-				<Card key={el._id} poster={el.poster} guild={el.guild} title={el.title} content={el.content} likes={el.likes} />
+				<Card
+					key={el._id}
+					id={el._id}
+					token={token}
+					poster={el.poster}
+					guild={el.guild}
+					title={el.title}
+					content={el.content}
+					likes={el.likes}
+				/>
 			)}
 		</div>
 	);
