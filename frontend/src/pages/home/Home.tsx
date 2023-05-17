@@ -2,19 +2,9 @@ import { useEffect, useState } from "react";
 import Card from "../../components/card/card";
 import API from "../../apiPath";
 import "./index.css";
-import { ErrorsState, Token } from "../../types";
-import {v4 as uuidv4} from "uuid";
+import { homeProps, IPost } from "../../types";
 
-interface IPost {
-	_id: string;
-	poster: string;
-	guild: string;
-	title: string;
-	content: string;
-	likes: number;
-}
-
-export default ({ token, newError }: { token: Token, newError: (payload: ErrorsState) => void}) => {
+export default ({ token, newError }: homeProps) => {
 	const [data, setData] = useState<IPost[]>([]);
 	const [error, setError] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -40,7 +30,7 @@ export default ({ token, newError }: { token: Token, newError: (payload: ErrorsS
 	useEffect(() => {
 		if (!hasMounted) return;
 
-		newError({id: uuidv4(), title: "Couldn't load posts", error: "Couldn't fetch posts from the servers. Maybe try again."})
+		newError({id: self.crypto.randomUUID(), title: "Couldn't load posts", error: "Couldn't fetch posts from the servers. Maybe try again."})
 	}, [error])
 
 	return (
