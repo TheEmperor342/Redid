@@ -1,12 +1,25 @@
 import React from "react"
 
-export type Token = string | null;
 export type setStateFunction<T> = React.Dispatch<React.SetStateAction<T>>;
 
 export interface signUpProps {
-	token: Token;
+	token: string | null;
 	setToken: setStateFunction<Token>;
 };
+
+export interface homeProps { 
+	token: string | null;
+	newError: (payload: ErrorsState) => void;
+};
+
+export interface IPost {
+	_id: string;
+	poster: string;
+	guild: string;
+	title: string;
+	content: string;
+	likes: number;
+}
 
 export interface ErrorsState {
 	id: string;
@@ -19,5 +32,3 @@ export type Action = {
 };
 
 export type ErrorsReducer = React.Reducer<ErrorsState[], Action>;
-
-

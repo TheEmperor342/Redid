@@ -1,14 +1,15 @@
-import { ChangeEvent, useCallback, useState } from "react";
-import API from "../../apiPath";
-import "./index.css";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { signUpProps } from "../../types";
+import "./index.css";
+import { ChangeEvent, useCallback, useState } from "react";
+import API from "../../apiPath";
 
 export default ({ token, setToken }: signUpProps) => {
 
 	const location = useLocation();
 	
-	if (token !== null) return <Navigate to="/" state={{ from: location }} replace/>
+	if (token !== null) 
+		return <Navigate to="/" state={{ from: location }} replace/>
 
 	const [usernameVal, setUsernameVal] = useState("");
 	const [passwordVal, setPasswordVal] = useState("");
@@ -28,7 +29,7 @@ export default ({ token, setToken }: signUpProps) => {
 
 	const submit = useCallback(async (username: string, password: string) => {
 		try {
-			const res = await fetch(`${API}/api/auth/sign-up`, {
+			const res = await fetch(`${API}/api/auth/sign-in`, {
 				method: "POST",
 				mode: "cors",
 				headers: {
@@ -50,13 +51,13 @@ export default ({ token, setToken }: signUpProps) => {
 			navigate("/");
 		}
 		catch (err: any) {
-			console.log(err);
+			console.error(err);
 			setError({ error: true, message: "Unknown error occured" });
 		}
 	}, []);
 
 	return (
-		<div className="signUpContainer">
+		<div className="signInContainer">
 			{error.error && <p><strong>Error: </strong>{error.message}</p>}
 			<form onSubmit={handleSubmit}>
 				<label>Username: <br />
