@@ -119,10 +119,6 @@ const unlikePost = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
 
-const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
-  const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
-  const post;
-});
 
 export default {
   get,
