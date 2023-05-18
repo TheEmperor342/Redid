@@ -1,25 +1,25 @@
 .card {
-	background-color: hsl(0, 0%, 80%);
-	border-radius: 15px;
-	width: 35vw;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+  background-color: hsl(0, 0%, 80%);
+  border-radius: 15px;
+  width: 35vw;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 .cardTopInfo {
-	font-size: .7rem;
+  font-size: 0.7rem;
 }
 .cardUpDownButtons {
-	background-color: hsl(0, 0%, 75%);
-	display: flex;
-	align-items: center;
-	border-bottom-right-radius: inherit;
-	border-bottom-left-radius: inherit;
-	padding-left: 2rem;
+  background-color: hsl(0, 0%, 75%);
+  display: flex;
+  align-items: center;
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+  padding-left: 2rem;
 }
 .cardTextContainer {
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-	max-height: 13rem;
-	overflow: hidden;
-	padding-left: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  max-height: 13rem;
+  overflow: hidden;
+  padding-left: 1rem;
 }
