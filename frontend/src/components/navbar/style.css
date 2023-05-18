@@ -1,24 +1,24 @@
 nav {
-	background-color: var(--bg);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding-left: 2rem;
-	padding-right: 2rem;
-	height: 3rem;
+  background-color: var(--bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  height: 3rem;
 }
 
 nav h3 {
-	font-weight: 900;
-	color: var(--nav-h3);
+  font-weight: 900;
+  color: var(--nav-h3);
 }
 nav div {
-	display: flex;
-	gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 nav div * {
-	color: var(--nav-h3);
-	opacity: 0.7;
-	font-size: 0.9rem;
-	text-decoration: none;
+  color: var(--nav-h3);
+  opacity: 0.7;
+  font-size: 0.9rem;
+  text-decoration: none;
 }
