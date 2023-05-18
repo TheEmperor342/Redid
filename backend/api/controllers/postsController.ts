@@ -119,6 +119,23 @@ const unlikePost = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
 
+// GET /api/posts/:id/isLikedByMe
+// Authorization: Bearer <token>
+const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
+  const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+  const postExists = await Posts.exists({ _id: req.params.id });
+
+  if (postExists === null) throw new HttpError("Post not found", 404);
+
+  const user = await Posts.exists({
+    _id: req.params.id,
+    likedBy: { $in: [tokenDecoded.ownerId] },
+  });
+
+  console.log(user);
+  console.log(!user ? false : true);
+  res.status(200).json({ status: "ok", hasLiked: !user ? false : true });
+});
 
 export default {
   get,
@@ -126,4 +143,5 @@ export default {
   delete: deletePost,
   likePost,
   unlikePost,
+  isLikedByMe
 };
