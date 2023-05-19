@@ -1,11 +1,11 @@
-import { ErrorsState } from "../../types";
+import { IErrorsState } from "../../types";
 
 export default ({
   errors,
   remove,
 }: {
-  errors: ErrorsState[];
-  remove: (error: ErrorsState) => void;
+  errors: IErrorsState[];
+  remove: (error: IErrorsState) => void;
 }) => {
   return (
     <div className="errors">
@@ -20,8 +20,8 @@ const Error = ({
   error,
   remove,
 }: {
-  error: ErrorsState;
-  remove: (error: ErrorsState) => void;
+  error: IErrorsState;
+  remove: (error: IErrorsState) => void;
 }) => {
   setTimeout(() => {
     remove(error);
