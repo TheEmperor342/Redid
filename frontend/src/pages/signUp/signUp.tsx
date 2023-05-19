@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import API from "../../apiPath";
 import "./index.css";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export default ({ token, setToken }: signUpProps) => {
 	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setPasswordVal(e.target.value);
 	};
-	const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		submit(usernameVal, passwordVal);
 	};

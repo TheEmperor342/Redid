@@ -1,7 +1,7 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { signUpProps } from "../../types";
 import "./index.css";
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import API from "../../apiPath";
 
 export default ({ token, setToken }: signUpProps) => {
@@ -21,7 +21,7 @@ export default ({ token, setToken }: signUpProps) => {
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPasswordVal(e.target.value);
   };
-  const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     submit(usernameVal, passwordVal);
   };
@@ -41,8 +41,8 @@ export default ({ token, setToken }: signUpProps) => {
         setError({
           error: true,
           message:
-            res.statusText === "Conflict"
-              ? "User exists"
+            res.status === 400
+              ? "Invalid Credentials"
               : "Unknown error occured",
         });
 
@@ -73,7 +73,7 @@ export default ({ token, setToken }: signUpProps) => {
             value={usernameVal}
             onChange={handleUsernameChange}
           />
-        </label>{" "}
+        </label>
         <br />
         <label>
           Password: <br />
@@ -82,9 +82,9 @@ export default ({ token, setToken }: signUpProps) => {
             value={passwordVal}
             onChange={handlePasswordChange}
           />
-        </label>{" "}
+        </label>
         <br />
-        <button type="submit">Sign Up</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );

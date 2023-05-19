@@ -6,6 +6,7 @@ import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import Errors from "./components/errors";
 import { useCallback, useEffect, useReducer, useState } from "react";
+import Post from "./pages/post";
 
 const errorsReducer = (state: IErrorsState[], action: ErrorsAction): IErrorsState[] => {
   switch (action.type) {
@@ -55,6 +56,10 @@ export default () => {
         <Route
           path="/sign-in"
           element={<SignIn token={token} setToken={setToken} />}
+        />
+        <Route
+          path="/post"
+          element={<Post token={token} newError={newError}/>}
         />
       </Routes>
       <Errors errors={errors} remove={remove} />
