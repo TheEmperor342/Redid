@@ -1,11 +1,24 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import Card from "../../components/card/card";
 import API from "../../apiPath";
 import "./index.css";
-import { homeProps, IPost } from "../../types";
+import { homeProps, PostsReducer, IPost, PostsAction } from "../../types";
+
+const reducer = (state: IPost[], action: PostsAction): IPost[] => {
+  switch (action.type) {
+    case "populate":
+      return action.payload;
+    case "updatePost":
+      return state.map((el) =>
+        !(el._id === action.payload[0]._id) ? el : action.payload[0]
+      );
+    default:
+      return state;
+  }
+};
 
 export default ({ token, newError }: homeProps) => {
-  const [data, setData] = useState<IPost[]>([]);
+  const [data, dataDispatch] = useReducer<PostsReducer>(reducer, []);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMounted, setHasMounted] = useState<boolean>(false);
@@ -18,13 +31,15 @@ export default ({ token, newError }: homeProps) => {
         else throw res;
       })
       .then((json) => {
-        setData(json.data);
+        dataDispatch({ type: "populate", payload: json.data });
       })
       .catch((err) => {
         console.log(err);
         setError(true);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -37,6 +52,10 @@ export default ({ token, newError }: homeProps) => {
     });
   }, [error]);
 
+  const updatePost = useCallback((payload: IPost) => {
+    dataDispatch({ type: "updatePost", payload: [payload] });
+  }, []);
+
   return (
     <div className="content">
       {isLoading && <h1>Loading</h1>}
@@ -44,13 +63,10 @@ export default ({ token, newError }: homeProps) => {
       {data.map((el) => (
         <Card
           key={el._id}
-          id={el._id}
+          data={el}
+          //@ts-ignore
           token={token}
-          poster={el.poster}
-          guild={el.guild}
-          title={el.title}
-          content={el.content}
-          likes={el.likes}
+          updatePost={updatePost}
         />
       ))}
     </div>

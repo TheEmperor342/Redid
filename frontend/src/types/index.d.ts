@@ -20,25 +20,26 @@ export interface IPost {
   content: string;
   likes: number;
 }
+export type PostsAction = {
+  type: string;
+  payload: IPost[];
+};
 
-interface ICardProps {
-  id: string;
+export interface ICardProps {
   token: string;
-  title: string;
-  content: string;
-  poster: string;
-  guild: string;
-  likes: number;
+  data: IPost;
+  updatePost: (payload: IPost) => void;
 }
 
-export interface ErrorsState {
+export interface IErrorsState {
   id: string;
   title: string;
   error: string;
 }
-export type Action = {
+export type ErrorsAction = {
   type: string;
   payload: ErrorsState;
 };
 
-export type ErrorsReducer = React.Reducer<ErrorsState[], Action>;
+export type ErrorsReducer = React.Reducer<IErrorsState[], ErrorsAction>;
+export type PostsReducer = React.Reducer<IPosts[], PostsAction>;
