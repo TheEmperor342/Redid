@@ -98,7 +98,7 @@ const likePost = errorHandler(async (req: Request, res: Response) => {
     { new: true, upsert: true }
   );
 
-  res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok", likes: updatedLikeDoc.likedBy.length });
 });
 
 // POST /api/posts/:id/like/
@@ -110,13 +110,13 @@ const unlikePost = errorHandler(async (req: Request, res: Response) => {
 
   if (postExists === null) throw new HttpError("Post not found", 404);
 
-  await Posts.findOneAndUpdate(
+  const updatedLikeDoc = await Posts.findOneAndUpdate(
     { _id: req.params.id },
     { $pull: { likedBy: tokenDecoded.ownerId } },
     { new: true }
   );
 
-  res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok", likes: updatedLikeDoc!.likedBy.length});
 });
 
 // GET /api/posts/:id/isLikedByMe
@@ -132,8 +132,6 @@ const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
     likedBy: { $in: [tokenDecoded.ownerId] },
   });
 
-  console.log(user);
-  console.log(!user ? false : true);
   res.status(200).json({ status: "ok", hasLiked: !user ? false : true });
 });
 
