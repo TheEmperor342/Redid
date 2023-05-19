@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { ErrorsReducer, ErrorsState, Action } from "./types";
+import { ErrorsReducer, IErrorsState, ErrorsAction } from "./types";
 import Home from "./pages/home";
 import Navbar from "./components/navbar";
 import SignUp from "./pages/signUp";
@@ -7,7 +7,7 @@ import SignIn from "./pages/signIn";
 import Errors from "./components/errors";
 import { useCallback, useEffect, useReducer, useState } from "react";
 
-const errorsReducer = (state: ErrorsState[], action: Action): ErrorsState[] => {
+const errorsReducer = (state: IErrorsState[], action: ErrorsAction): IErrorsState[] => {
   switch (action.type) {
     case "append":
       return [...state, action.payload];
@@ -23,10 +23,10 @@ export default () => {
   const [loaded, setLoaded] = useState<boolean>(false);
   const [errors, dispatch] = useReducer<ErrorsReducer>(errorsReducer, []);
 
-  const remove = useCallback((error: ErrorsState) => {
+  const remove = useCallback((error: IErrorsState) => {
     dispatch({ type: "remove", payload: error });
   }, []);
-  const newError = useCallback((payload: ErrorsState) => {
+  const newError = useCallback((payload: IErrorsState) => {
     dispatch({ type: "append", payload });
   }, []);
 
