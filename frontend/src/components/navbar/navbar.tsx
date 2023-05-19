@@ -63,6 +63,9 @@ export default ({
         </Link>
         {token ? (
           <>
+            <Link to="/post">
+              <p>Post</p>
+            </Link>
             <p> Logged In </p>
             <button onClick={handleLogout}>Logout</button>
           </>

@@ -1,11 +1,11 @@
-import react, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./style.css";
 import { ICardProps } from "../../types";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
 import API from "../../apiPath";
 
-const Card: react.FC<ICardProps> = ({ token, data, updatePost }) => {
+const Card: React.FC<ICardProps> = ({ token, data, updatePost }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -30,7 +30,6 @@ const Card: react.FC<ICardProps> = ({ token, data, updatePost }) => {
   }, []);
 
   const likeOrUnlike = async () => {
-    console.log(data.title, isLiked);
     const path = `${API}/api/posts/${data._id}/${isLiked ? "unlike" : "like"}`;
 
     const res = await fetch(path, {

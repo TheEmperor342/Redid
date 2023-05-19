@@ -9,7 +9,12 @@ export interface signUpProps {
 
 export interface homeProps {
   token: string | null;
-  newError: (payload: ErrorsState) => void;
+  newError: (payload: IErrorsState) => void;
+}
+
+export interface postProps {
+  token: string | null;
+  newError: (payload: IErrorsState) => void;
 }
 
 export interface IPost {
@@ -38,7 +43,7 @@ export interface IErrorsState {
 }
 export type ErrorsAction = {
   type: string;
-  payload: ErrorsState;
+  payload: IErrorsState;
 };
 
 export type ErrorsReducer = React.Reducer<IErrorsState[], ErrorsAction>;
