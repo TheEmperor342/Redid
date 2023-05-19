@@ -2,7 +2,7 @@ import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import API from "../../apiPath";
-import { ErrorsState, setStateFunction } from "../../types";
+import { IErrorsState, setStateFunction } from "../../types";
 
 export default ({
   token,
@@ -11,7 +11,7 @@ export default ({
 }: {
   token: string | null;
   setToken: setStateFunction<string | null>;
-  newError: (payload: ErrorsState) => void;
+  newError: (payload: IErrorsState) => void;
 }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
