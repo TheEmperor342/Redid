@@ -27,13 +27,30 @@ const post: React.FC<postProps> = ({ token, newError }) => {
     e.preventDefault();
     submit(token, title, textArea, guild);
   };
-  // TODO: Validate this stuff in frontend before sending request
+
   const submit = async (
     token: string,
     title: string,
     textArea: string,
     guild: string
   ) => {
+    if (
+      !token ||
+      !title ||
+      !textArea ||
+      !guild ||
+      token.trim() === "" ||
+      title.trim() === "" ||
+      textArea.trim() == "" ||
+      guild.trim() === ""
+    ) {
+      newError({
+        id: self.crypto.randomUUID(),
+        title: "Error",
+        error: "Please fill all the fields",
+      });
+      return;
+    }
     try {
       const res = await fetch(`${API}/api/posts`, {
         method: "POST",
