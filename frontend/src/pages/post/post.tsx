@@ -1,11 +1,13 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import "./index.css";
 import { postProps } from "../../types";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import API from "../../apiPath";
+import { TokenContext } from "../../TokenContext";
 
-const post: React.FC<postProps> = ({ token, newError }) => {
+const post: React.FC<postProps> = ({ newError }) => {
   const location = useLocation();
+  const { token } = useContext(TokenContext);
   if (token === null)
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
 

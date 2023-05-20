@@ -1,12 +1,13 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { signUpProps } from "../../types";
 import "./index.css";
-import { ChangeEvent, FormEvent, useCallback, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useContext, useState } from "react";
 import API from "../../apiPath";
+import { TokenContext } from "../../TokenContext";
 
-export default ({ token, setToken }: signUpProps) => {
+export default () => {
   const location = useLocation();
 
+  const { token, setToken } = useContext(TokenContext);
   if (token !== null)
     return <Navigate to="/" state={{ from: location }} replace />;
 

@@ -5,10 +5,15 @@ import Navbar from "./components/navbar";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import Errors from "./components/errors";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useContext, useReducer } from "react";
 import Post from "./pages/post";
+import Settings from "./pages/settings";
+import { TokenContext } from "./TokenContext";
 
-const errorsReducer = (state: IErrorsState[], action: ErrorsAction): IErrorsState[] => {
+const errorsReducer = (
+  state: IErrorsState[],
+  action: ErrorsAction
+): IErrorsState[] => {
   switch (action.type) {
     case "append":
       return [...state, action.payload];
@@ -20,8 +25,6 @@ const errorsReducer = (state: IErrorsState[], action: ErrorsAction): IErrorsStat
 };
 
 export default () => {
-  const [token, setToken] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState<boolean>(false);
   const [errors, dispatch] = useReducer<ErrorsReducer>(errorsReducer, []);
 
   const remove = useCallback((error: IErrorsState) => {
@@ -31,35 +34,26 @@ export default () => {
     dispatch({ type: "append", payload });
   }, []);
 
-  useEffect(() => {
-    const tokenInLocalStorage = localStorage.getItem("token");
-    if (tokenInLocalStorage !== null) setToken(tokenInLocalStorage);
-
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    if (token === null) localStorage.removeItem("token");
-    else localStorage.setItem("token", token);
-  }, [token]);
-
   return (
     <>
-      <Navbar token={token} newError={newError} setToken={setToken} />
+      <Navbar newError={newError} />
       <Routes>
-        <Route path="/" element={<Home token={token} newError={newError} />} />
+        <Route path="/" element={<Home newError={newError} />} />
         <Route
           path="/sign-up"
-          element={<SignUp token={token} setToken={setToken} />}
+          element={<SignUp/>}
         />
         <Route
           path="/sign-in"
-          element={<SignIn token={token} setToken={setToken} />}
+          element={<SignIn/>}
         />
         <Route
           path="/post"
-          element={<Post token={token} newError={newError}/>}
+          element={<Post newError={newError} />}
+        />
+        <Route
+          path="/settings"
+          element={<Settings newError={newError} />}
         />
       </Routes>
       <Errors errors={errors} remove={remove} />

@@ -1,8 +1,15 @@
-import { useCallback, useEffect, useReducer, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import Card from "../../components/card/card";
 import API from "../../apiPath";
 import "./index.css";
 import { homeProps, PostsReducer, IPost, PostsAction } from "../../types";
+import { TokenContext } from "../../TokenContext";
 
 const reducer = (state: IPost[], action: PostsAction): IPost[] => {
   switch (action.type) {
@@ -17,11 +24,12 @@ const reducer = (state: IPost[], action: PostsAction): IPost[] => {
   }
 };
 
-export default ({ token, newError }: homeProps) => {
+export default ({ newError }: homeProps) => {
   const [data, dataDispatch] = useReducer<PostsReducer>(reducer, []);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMounted, setHasMounted] = useState<boolean>(false);
+  const { token } = useContext(TokenContext);
 
   useEffect(() => {
     setHasMounted(true);

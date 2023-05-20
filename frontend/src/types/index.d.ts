@@ -1,19 +1,19 @@
 import React from "react";
 
-export type setStateFunction<T> = React.Dispatch<React.SetStateAction<T>>;
-
-export interface signUpProps {
+export interface TokenContextProps {
   token: string | null;
-  setToken: setStateFunction<Token>;
+  setToken: (token: string | null) => void;
 }
 
 export interface homeProps {
-  token: string | null;
   newError: (payload: IErrorsState) => void;
 }
 
 export interface postProps {
-  token: string | null;
+  newError: (payload: IErrorsState) => void;
+}
+
+export interface settingsProps {
   newError: (payload: IErrorsState) => void;
 }
 
