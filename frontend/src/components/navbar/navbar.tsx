@@ -15,10 +15,10 @@ export default ({
 
   const navigate = useNavigate();
   const handleLogout = () => {
-    signOut(token!);
+    logout(token!);
   };
 
-  const signOut = async (token: string) => {
+  const logout = async (token: string) => {
     try {
       const res = await fetch(`${API}/api/auth/sign-up`, {
         method: "DELETE",

@@ -6,15 +6,13 @@ export default ({
 }: {
   errors: IErrorsState[];
   remove: (error: IErrorsState) => void;
-}) => {
-  return (
-    <div className="errors">
-      {errors.map((el) => (
-        <Error key={el.id} error={el} remove={remove} />
-      ))}
-    </div>
-  );
-};
+}) => (
+  <div className="errors">
+    {errors.map((el) => (
+      <Error key={el.id} error={el} remove={remove} />
+    ))}
+  </div>
+);
 
 const Error = ({
   error,
