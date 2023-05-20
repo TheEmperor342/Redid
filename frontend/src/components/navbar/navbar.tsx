@@ -1,24 +1,24 @@
 import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback } from "react";
 import API from "../../apiPath";
-import { IErrorsState, setStateFunction } from "../../types";
+import { useContext } from "react";
+import { TokenContext } from "../../TokenContext";
+import { IErrorsState } from "../../types";
 
 export default ({
-  token,
   newError,
-  setToken,
 }: {
-  token: string | null;
-  setToken: setStateFunction<string | null>;
   newError: (payload: IErrorsState) => void;
 }) => {
+  const { token, setToken } = useContext(TokenContext);
+  console.log("Navbar: ", token);
+
   const navigate = useNavigate();
   const handleLogout = () => {
     signOut(token!);
   };
 
-  const signOut = useCallback(async (token: string) => {
+  const signOut = async (token: string) => {
     try {
       const res = await fetch(`${API}/api/auth/sign-up`, {
         method: "DELETE",
@@ -33,6 +33,7 @@ export default ({
         navigate("/");
         return;
       }
+      console.log("A");
       if (!res.ok) {
         newError({
           id: self.crypto.randomUUID(),
@@ -52,7 +53,7 @@ export default ({
         error: "Please try again later.",
       });
     }
-  }, []);
+  };
 
   return (
     <nav>

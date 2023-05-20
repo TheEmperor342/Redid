@@ -10,7 +10,7 @@ const Card: React.FC<ICardProps> = ({ token, data, updatePost }) => {
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
-    isLikedByMe(data._id, token);
+    if (token !== null) isLikedByMe(data._id, token);
   }, []);
 
   const isLikedByMe = useCallback(async (id: string, token: string) => {
