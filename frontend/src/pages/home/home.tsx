@@ -72,9 +72,8 @@ export default ({ newError }: homeProps) => {
         <Card
           key={el._id}
           data={el}
-          //@ts-ignore
-          token={token}
           updatePost={updatePost}
+          settings={false}
         />
       ))}
     </div>

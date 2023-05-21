@@ -1,3 +1,1 @@
-import signIn from "./signIn.tsx";
-
-export default signIn;
+export { default } from "./signIn";

@@ -1,3 +1,1 @@
-import Post from "./post.tsx";
-
-export default Post;
+export { default } from "./post";

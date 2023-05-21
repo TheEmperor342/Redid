@@ -30,11 +30,17 @@ export type PostsAction = {
   payload: IPost[];
 };
 
-export interface ICardProps {
-  token: string;
+export interface CardPropsHome {
   data: IPost;
   updatePost: (payload: IPost) => void;
+  settings: false;
 }
+export interface CardPropsSettings {
+  data: IPost;
+  settings: true;
+  updatePost: () => void;
+}
+
 
 export interface IErrorsState {
   id: string;
