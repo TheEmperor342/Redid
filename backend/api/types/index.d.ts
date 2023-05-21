@@ -8,7 +8,7 @@ export type jwtPayloadOverride = jwt.JwtPayload & {
 };
 
 export interface TPost {
-  postId: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   poster: string;
   title: string;
   content: string | undefined;
