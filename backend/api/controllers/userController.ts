@@ -60,7 +60,7 @@ const beautifyPosts = (netPosts: PostDoc[]): { [key: string]: TPost[] } => {
   for (let post of netPosts) {
     const guild = post.guild;
     const postWithoutGuild: TPost = {
-      postId: post._id,
+      _id: post._id,
       poster: post.poster,
       title: post.title,
       content: post.content,
