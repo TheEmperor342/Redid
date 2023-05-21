@@ -15,7 +15,7 @@ const Card: React.FC<CardPropsHome | CardPropsSettings> = ({ data, updatePost, s
    * no need to get the token because no data manipulation will be
    * done. 
    *
-   * In the route `/settings`, this comonent is purely for display.
+   * In the route `/settings`, this component is purely for display.
    * */
   const {token} = settings ? {token: null} : useContext(TokenContext);
 
