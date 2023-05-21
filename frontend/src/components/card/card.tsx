@@ -1,19 +1,30 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "./style.css";
-import { ICardProps } from "../../types";
+import { CardPropsHome, CardPropsSettings } from "../../types";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
 import API from "../../apiPath";
+import { TokenContext } from "../../TokenContext";
 
-const Card: React.FC<ICardProps> = ({ token, data, updatePost }) => {
+const Card: React.FC<CardPropsHome | CardPropsSettings> = ({ data, updatePost, settings }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+
+  /*
+   * If this component is initialized from `/settings`, then there is
+   * no need to get the token because no data manipulation will be
+   * done. 
+   *
+   * In the route `/settings`, this comonent is purely for display.
+   * */
+  const {token} = settings ? {token: null} : useContext(TokenContext);
 
   useEffect(() => {
     if (token !== null) isLikedByMe(data._id, token);
   }, []);
 
   const isLikedByMe = useCallback(async (id: string, token: string) => {
+    console.log(`Ran: ${id}`);
     const res = await fetch(`${API}/api/posts/${id}/isLikedByMe`, {
       method: "GET",
       mode: "cors",
@@ -39,12 +50,11 @@ const Card: React.FC<ICardProps> = ({ token, data, updatePost }) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    const json = await res.json();
     if (!res.ok) {
-      const json = await res.json();
       console.log(res, json);
       return;
     }
-    const json = await res.json();
     setIsLiked(!isLiked);
 
     updatePost({

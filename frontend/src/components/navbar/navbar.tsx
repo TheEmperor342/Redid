@@ -11,7 +11,6 @@ export default ({
   newError: (payload: IErrorsState) => void;
 }) => {
   const { token, setToken } = useContext(TokenContext);
-  console.log("Navbar: ", token);
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -33,7 +32,6 @@ export default ({
         navigate("/");
         return;
       }
-      console.log("A");
       if (!res.ok) {
         newError({
           id: self.crypto.randomUUID(),
@@ -66,6 +64,9 @@ export default ({
           <>
             <Link to="/post">
               <p>Post</p>
+            </Link>
+            <Link to="/settings">
+              <p>Settings</p>
             </Link>
             <p> Logged In </p>
             <button onClick={handleLogout}>Logout</button>
