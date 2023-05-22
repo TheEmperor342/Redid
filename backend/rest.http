@@ -73,8 +73,15 @@ Authorization: Bearer {{token}}
 GET http://localhost:{{port}}/api/user/posts
 Authorization: Bearer {{token}}
 
+### Optional
+GET http://localhost:{{port}}/api/user/posts?flattened=true
+Authorization: Bearer {{token}}
+
 ### Get a specific user's posts
 GET http://localhost:{{port}}/api/user/:user/posts
+
+### Optional
+GET http://localhost:{{port}}/api/user/:user/posts?flattened=true
 
 ### Get a specific user's guilds
 GET http://localhost:{{port}}/api/user/:user/guilds

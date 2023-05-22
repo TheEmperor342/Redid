@@ -18,12 +18,23 @@ const getGuilds = errorHandler(async (req: Request, res: Response) => {
 const getPosts = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
-  const netPosts: PostDoc[] = await Posts.find({
+  const netPosts = await Posts.find({
     posterId: tokenDecoded.ownerId,
-  });
-  const posts = beautifyPosts(netPosts);
+  }).sort({ _id: -1 });
 
-  res.status(200).json({ status: "ok", data: posts });
+  res.status(200).json({
+    status: "ok",
+    data: (req.query.flattened === "true" ? true : false)
+      ? netPosts.map((el) => ({
+        _id: el._id,
+        poster: el.poster,
+        guild: el.guild,
+        title: el.title,
+        content: el.content,
+        likes: el.likedBy.length,
+      }))
+      : beautifyPosts(netPosts as PostDoc[]),
+  });
 });
 
 /* /api/user/:user/posts */
@@ -33,11 +44,21 @@ const getUserPosts = errorHandler(async (req: Request, res: Response) => {
   const userDoc = await Accounts.exists({ username: user });
   if (!userDoc) throw new HttpError("user not found", 404);
 
-  const userPostsDocs: PostDoc[] = await Posts.find({ posterId: userDoc._id });
+  const netPosts = await Posts.find({ posterId: userDoc._id });
 
-  const posts = beautifyPosts(userPostsDocs);
-
-  res.status(200).json({ status: "ok", data: posts });
+  res.status(200).json({
+    status: "ok",
+    data: (req.query.flattened === "true" ? true : false)
+      ? netPosts.map((el) => ({
+        _id: el._id,
+        poster: el.poster,
+        guild: el.guild,
+        title: el.title,
+        content: el.content,
+        likes: el.likedBy.length,
+      }))
+      : beautifyPosts(netPosts as PostDoc[]),
+  });
 });
 
 /* /api/user/:user/guilds */
