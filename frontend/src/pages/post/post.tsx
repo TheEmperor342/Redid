@@ -68,7 +68,6 @@ const post: React.FC<postProps> = ({ newError }) => {
         }),
       });
       const json = await res.json();
-      console.log(json);
       if (!res.ok) {
         if (res.status === 404)
           newError({
