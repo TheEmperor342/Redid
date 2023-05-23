@@ -1,35 +1,15 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import Card from "../../components/card/card";
 import API from "../../apiPath";
 import "./index.css";
-import { homeProps, PostsReducer, IPost, PostsAction } from "../../types";
-import { TokenContext } from "../../TokenContext";
-
-const reducer = (state: IPost[], action: PostsAction): IPost[] => {
-  switch (action.type) {
-    case "populate":
-      return action.payload;
-    case "updatePost":
-      return state.map((el) =>
-        !(el._id === action.payload[0]._id) ? el : action.payload[0]
-      );
-    default:
-      return state;
-  }
-};
+import { homeProps } from "../../types";
+import usePostsReducer from "../../hooks/usePostsReducer";
 
 export default ({ newError }: homeProps) => {
-  const [data, dataDispatch] = useReducer<PostsReducer>(reducer, []);
+  const [data, dataDispatch] = usePostsReducer([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMounted, setHasMounted] = useState<boolean>(false);
-  const { token } = useContext(TokenContext);
 
   useEffect(() => {
     setHasMounted(true);
@@ -60,9 +40,9 @@ export default ({ newError }: homeProps) => {
     });
   }, [error]);
 
-  const updatePost = useCallback((payload: IPost) => {
-    dataDispatch({ type: "updatePost", payload: [payload] });
-  }, []);
+  const deletePost = (payload: string) => {
+    dataDispatch({ type: "delete", payload });
+  };
 
   return (
     <div className="content">
@@ -72,8 +52,8 @@ export default ({ newError }: homeProps) => {
         <Card
           key={el._id}
           data={el}
-          updatePost={updatePost}
-          settings={false}
+          deletePost={deletePost}
+          newError={newError}
         />
       ))}
     </div>

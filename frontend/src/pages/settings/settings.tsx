@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { settingsProps, IPost } from "../../types";
+import React, { useContext, useEffect } from "react";
+import { settingsProps } from "../../types";
 import { Navigate, useLocation } from "react-router-dom";
 import { TokenContext } from "../../TokenContext";
 import API from "../../apiPath";
 import Card from "../../components/card/card";
+import useOrganisedPostsReducer from "../../hooks/useOrganisedPostReducer";
+import "./index.css";
 
 const Settings: React.FC<settingsProps> = ({ newError }) => {
   const location = useLocation();
@@ -12,12 +14,15 @@ const Settings: React.FC<settingsProps> = ({ newError }) => {
   if (token === null)
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
 
-  const [posts, setPosts] = useState<{ [key: string]: IPost[] }>({});
+  const [posts, postsDispatch] = useOrganisedPostsReducer({});
+
   const tokenDecoded = JSON.parse(atob(token.split(".")[1]));
   const username = tokenDecoded.username;
 
   useEffect(() => {
-    getMyPosts().then((json) => setPosts(json));
+    getMyPosts().then((json) => {
+      postsDispatch({ type: "populate", payload: json });
+    });
   }, []);
 
   const getMyPosts = async () => {
@@ -30,7 +35,6 @@ const Settings: React.FC<settingsProps> = ({ newError }) => {
     const json = await res.json();
 
     if (!res.ok) {
-      console.log(json);
       newError({
         id: self.crypto.randomUUID(),
         title: "Error",
@@ -51,20 +55,36 @@ const Settings: React.FC<settingsProps> = ({ newError }) => {
   }
   return (
     <div className="settings">
-      <h1>{username}</h1>
-      {Object.keys(posts).map((guild) => (
-        <div className="guildPosts" key={self.crypto.randomUUID()}>
-          <h3>{guild}</h3>
-          {posts[guild].map((post) => (
-            <Card
-              key={post._id}
-              data={{ ...post, guild }}
-              updatePost={() => {}}
-              settings={true}
-            />
-          ))}
-        </div>
-      ))}
+      <div className="settingsSidebar">
+        <h4>Guilds you have posted in</h4>
+        {Object.keys(posts).map((guild) => (
+          <React.Fragment key={self.crypto.randomUUID()}>
+            <a href={"#" + guild}>{guild}</a>
+            <br />
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="settingsPosts">
+        <h1>{username}</h1>
+        {Object.keys(posts).map((guild) => (
+          <div className="guildPosts" key={self.crypto.randomUUID()} id={guild}>
+            <h3>{guild}</h3>
+            {posts[guild].map((post) => (
+              <Card
+                key={post._id}
+                data={{ ...post, guild }}
+                deletePost={(payload: string) => {
+                  postsDispatch({
+                    type: "delete",
+                    payload,
+                  });
+                }}
+                newError={newError}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

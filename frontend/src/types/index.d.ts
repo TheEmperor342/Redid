@@ -1,22 +1,32 @@
 import React from "react";
 
+type newError = (payload: IErrorsState) => void;
+
 export interface TokenContextProps {
   token: string | null;
   setToken: (token: string | null) => void;
 }
 
+// ***************
 export interface homeProps {
-  newError: (payload: IErrorsState) => void;
+  newError: newError;
 }
 
 export interface postProps {
-  newError: (payload: IErrorsState) => void;
+  newError: newError;
 }
 
 export interface settingsProps {
-  newError: (payload: IErrorsState) => void;
+  newError: newError;
 }
 
+export interface CardProps {
+  data: IPost;
+  deletePost: (payload: string) => void;
+  newError: newError;
+}
+
+// ****************
 export interface IPost {
   _id: string;
   poster: string;
@@ -25,32 +35,40 @@ export interface IPost {
   content: string;
   likes: number;
 }
-export type PostsAction = {
-  type: string;
-  payload: IPost[];
-};
+export type PostsAction =
+  | {
+      type: "populate";
+      payload: IPost[];
+    }
+  | {
+      type: "delete";
+      payload: string;
+    };
+export type PostsReducer = React.Reducer<IPost[], PostsAction>;
 
-export interface CardPropsHome {
-  data: IPost;
-  updatePost: (payload: IPost) => void;
-  settings: false;
-}
-export interface CardPropsSettings {
-  data: IPost;
-  settings: true;
-  updatePost: () => void;
-}
-
-
+// ****************
 export interface IErrorsState {
   id: string;
   title: string;
   error: string;
 }
-export type ErrorsAction = {
+export interface ErrorsAction {
   type: string;
   payload: IErrorsState;
-};
-
+}
 export type ErrorsReducer = React.Reducer<IErrorsState[], ErrorsAction>;
-export type PostsReducer = React.Reducer<IPosts[], PostsAction>;
+
+// For the reducer in `pages/settings/settings.tsx`
+export type OrganisedPostAction =
+  | {
+      type: "populate";
+      payload: { [key: string]: IPost[] };
+    }
+  | {
+      type: "delete";
+      payload: string;
+    };
+export type OrganisedPostsReducer = React.Reducer<
+  { [key: string]: Omit<IPost, "guild">[] },
+  OrganisedPostsAction
+>;

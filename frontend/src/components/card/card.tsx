@@ -1,30 +1,26 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import "./style.css";
-import { CardPropsHome, CardPropsSettings } from "../../types";
+import { CardProps } from "../../types";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
+import { MdDeleteForever } from "react-icons/md";
 import API from "../../apiPath";
 import { TokenContext } from "../../TokenContext";
 
-const Card: React.FC<CardPropsHome | CardPropsSettings> = ({ data, updatePost, settings }) => {
+const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [likes, setLikes] = useState<number>(data.likes);
 
-  /*
-   * If this component is initialized from `/settings`, then there is
-   * no need to get the token because no data manipulation will be
-   * done. 
-   *
-   * In the route `/settings`, this component is purely for display.
-   * */
-  const {token} = settings ? {token: null} : useContext(TokenContext);
+  const { token } = useContext(TokenContext);
+  const { username } =
+    token === null ? { username: null } : JSON.parse(atob(token.split(".")[1]));
 
   useEffect(() => {
     if (token !== null) isLikedByMe(data._id, token);
   }, []);
 
   const isLikedByMe = useCallback(async (id: string, token: string) => {
-    console.log(`Ran: ${id}`);
     const res = await fetch(`${API}/api/posts/${id}/isLikedByMe`, {
       method: "GET",
       mode: "cors",
@@ -53,18 +49,35 @@ const Card: React.FC<CardPropsHome | CardPropsSettings> = ({ data, updatePost, s
     const json = await res.json();
     if (!res.ok) {
       console.log(res, json);
+      newError({
+        id: self.crypto.randomUUID(),
+        title: "Error",
+        error: "Couldn't like post",
+      });
       return;
     }
     setIsLiked(!isLiked);
 
-    updatePost({
-      _id: data._id,
-      poster: data.poster,
-      guild: data.guild,
-      title: data.title,
-      content: data.content,
-      likes: json.likes,
+    setLikes(json.likes);
+  };
+
+  const handleDelete = async () => {
+    const res = await fetch(`${API}/api/posts/${data._id}`, {
+      method: "DELETE",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
+    if (!res.ok) {
+      newError({
+        id: self.crypto.randomUUID(),
+        title: "Error",
+        error: "Couldn't delete post",
+      });
+      return;
+    }
+    deletePost(data._id);
   };
 
   return (
@@ -79,18 +92,27 @@ const Card: React.FC<CardPropsHome | CardPropsSettings> = ({ data, updatePost, s
       <div className="cardUpDownButtons">
         {token !== null ? (
           <>
-            <button onClick={() => likeOrUnlike()}>
+            <button onClick={likeOrUnlike}>
               {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
             </button>
             <BsDot />
-            <p>{isError ? "Couldn't fetch data" : data.likes}</p>
           </>
         ) : (
           <p>
             <AiOutlineHeart />
             <BsDot />
-            {data.likes}
           </p>
+        )}
+        <p>{isError ? "Couldn't fetch data" : likes}</p>
+        <BsDot/>
+        {data.poster === username ? (
+          <>
+            <button onClick={handleDelete}>
+              <MdDeleteForever />
+            </button>
+          </>
+        ) : (
+          <></>
         )}
       </div>
     </div>

@@ -5,10 +5,9 @@ import Navbar from "./components/navbar";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 import Errors from "./components/errors";
-import { useCallback, useContext, useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import Post from "./pages/post";
 import Settings from "./pages/settings";
-import { TokenContext } from "./TokenContext";
 
 const errorsReducer = (
   state: IErrorsState[],
