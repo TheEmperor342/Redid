@@ -19,7 +19,7 @@ export default ({
 
   const logout = async (token: string) => {
     try {
-      const res = await fetch(`${API}/api/auth/sign-up`, {
+      const res = await fetch(`${API}/api/auth/logout`, {
         method: "DELETE",
         mode: "cors",
         headers: {
