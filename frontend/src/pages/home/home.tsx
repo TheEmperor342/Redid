@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Card from "../../components/card/card";
 import API from "../../apiPath";
 import "./index.css";
-import { homeProps } from "../../types";
+import { GenericPageProps} from "../../types";
 import usePostsReducer from "../../hooks/usePostsReducer";
 
-export default ({ newError }: homeProps) => {
+export default ({ newError }: GenericPageProps) => {
   const [data, dataDispatch] = usePostsReducer([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

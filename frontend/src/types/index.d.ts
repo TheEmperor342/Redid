@@ -8,21 +8,20 @@ export interface TokenContextProps {
 }
 
 // ***************
-export interface homeProps {
-  newError: newError;
-}
-
-export interface postProps {
-  newError: newError;
-}
-
-export interface settingsProps {
+export interface GenericPageProps {
   newError: newError;
 }
 
 export interface CardProps {
   data: IPost;
   deletePost: (payload: string) => void;
+  newError: newError;
+}
+
+export interface userPostsProps {
+  posts: OrganisedPosts;
+  username: string;
+  postsDispatch: React.Dispatch<OrganisedPostAction>;
   newError: newError;
 }
 
@@ -37,13 +36,13 @@ export interface IPost {
 }
 export type PostsAction =
   | {
-      type: "populate";
-      payload: IPost[];
-    }
+    type: "populate";
+    payload: IPost[];
+  }
   | {
-      type: "delete";
-      payload: string;
-    };
+    type: "delete";
+    payload: string;
+  };
 export type PostsReducer = React.Reducer<IPost[], PostsAction>;
 
 // ****************
@@ -59,16 +58,17 @@ export interface ErrorsAction {
 export type ErrorsReducer = React.Reducer<IErrorsState[], ErrorsAction>;
 
 // For the reducer in `pages/settings/settings.tsx`
+export type OrganisedPosts = { [key: string]: Omit<IPost, "guild">[] }
 export type OrganisedPostAction =
   | {
-      type: "populate";
-      payload: { [key: string]: IPost[] };
-    }
+    type: "populate";
+    payload: OrganisedPosts;
+  }
   | {
-      type: "delete";
-      payload: string;
-    };
+    type: "delete";
+    payload: string;
+  };
 export type OrganisedPostsReducer = React.Reducer<
-  { [key: string]: Omit<IPost, "guild">[] },
+  OrganisedPosts,
   OrganisedPostsAction
 >;

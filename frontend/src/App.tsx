@@ -8,6 +8,7 @@ import Errors from "./components/errors";
 import { useCallback, useReducer } from "react";
 import Post from "./pages/post";
 import Settings from "./pages/settings";
+import User from "./pages/user/user";
 
 const errorsReducer = (
   state: IErrorsState[],
@@ -54,6 +55,7 @@ export default () => {
           path="/settings"
           element={<Settings newError={newError} />}
         />
+        <Route path="/u/:username" element={<User newError={newError}/>}/>
       </Routes>
       <Errors errors={errors} remove={remove} />
     </>
