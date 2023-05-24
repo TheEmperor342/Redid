@@ -1,0 +1,8 @@
+
+.organisedPostsSidebar{
+  position: fixed;
+  width: 15rem;
+}
+.organisedPosts {
+  margin-left: 15rem;
+}

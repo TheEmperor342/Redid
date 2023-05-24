@@ -1,13 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { settingsProps } from "../../types";
+import { GenericPageProps } from "../../types";
 import { Navigate, useLocation } from "react-router-dom";
 import { TokenContext } from "../../TokenContext";
 import API from "../../apiPath";
-import Card from "../../components/card/card";
 import useOrganisedPostsReducer from "../../hooks/useOrganisedPostReducer";
-import "./index.css";
+import UserPosts from "../../components/userPosts/userPosts";
 
-const Settings: React.FC<settingsProps> = ({ newError }) => {
+const Settings: React.FC<GenericPageProps> = ({ newError }) => {
   const location = useLocation();
 
   const { token } = useContext(TokenContext);
@@ -54,38 +53,12 @@ const Settings: React.FC<settingsProps> = ({ newError }) => {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
   return (
-    <div className="settings">
-      <div className="settingsSidebar">
-        <h4>Guilds you have posted in</h4>
-        {Object.keys(posts).map((guild) => (
-          <React.Fragment key={self.crypto.randomUUID()}>
-            <a href={"#" + guild}>{guild}</a>
-            <br />
-          </React.Fragment>
-        ))}
-      </div>
-      <div className="settingsPosts">
-        <h1>{username}</h1>
-        {Object.keys(posts).map((guild) => (
-          <div className="guildPosts" key={self.crypto.randomUUID()} id={guild}>
-            <h3>{guild}</h3>
-            {posts[guild].map((post) => (
-              <Card
-                key={post._id}
-                data={{ ...post, guild }}
-                deletePost={(payload: string) => {
-                  postsDispatch({
-                    type: "delete",
-                    payload,
-                  });
-                }}
-                newError={newError}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
+    <UserPosts
+      posts={posts}
+      username={username}
+      postsDispatch={postsDispatch}
+      newError={newError}
+    />
   );
 };
 
