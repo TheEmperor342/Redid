@@ -74,4 +74,35 @@ const get = errorHandler(async (req: Request, res: Response) => {
   });
 });
 
-export default { get, post, delete: deleteGuild };
+// ================== //
+
+// api/guilds/:guild/posts
+const getGuildPosts = errorHandler(async (req: Request, res: Response) => {
+  const number: number = Number(req.query.number ?? 15);
+  if (isNaN(number))
+    throw new HttpError("Please provide an appropriate number", 400);
+  if (number < 5 || number > 25)
+    throw new HttpError("number cannot be < 1 or > 15", 400);
+
+  const guildExists = await Guilds.exists({ name: req.params.guild });
+
+  if (guildExists === null) throw new HttpError("guild not found", 404);
+
+  const posts = await Posts.find({ guild: req.params.guild })
+    .sort({ _id: -1 })
+    .limit(number);
+
+  res.status(200).json({
+    status: "ok",
+    data: posts.map((el) => ({
+      _id: el._id,
+      poster: el.poster,
+      guild: el.guild,
+      title: el.title,
+      content: el.content,
+      likes: el.likedBy.length,
+    })),
+  });
+});
+
+export default { get, post, delete: deleteGuild, getGuildPosts };

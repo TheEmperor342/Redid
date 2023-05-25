@@ -69,6 +69,9 @@ GET http://localhost:{{port}}/api/guilds?number=15
 GET http://localhost:{{port}}/api/user/guilds
 Authorization: Bearer {{token}}
 
+### Get guild posts
+GET http://localhost:{{port}}/api/guilds/:guild/posts
+
 ### Get self posts
 GET http://localhost:{{port}}/api/user/posts
 Authorization: Bearer {{token}}
