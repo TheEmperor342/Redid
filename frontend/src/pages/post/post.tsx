@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import "./index.css";
-import { GenericPageProps } from "../../types";
+import { GenericPageProps } from "@types";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import API from "../../apiPath";
-import { TokenContext } from "../../TokenContext";
+import API from "@src/apiPath";
+import { TokenContext } from "@src/TokenContext";
 
 const post: React.FC<GenericPageProps> = ({ newError }) => {
   const location = useLocation();

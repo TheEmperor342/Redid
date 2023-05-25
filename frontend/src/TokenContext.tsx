@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
-import { TokenContextProps } from "./types";
+import { TokenContextProps } from "@types";
 import React from "react";
-import App from "./App";
+import App from "@src/App";
 
 export const TokenContext = createContext<TokenContextProps>({
   token: null,

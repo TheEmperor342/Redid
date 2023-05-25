@@ -1,8 +1,14 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import "./index.css";
-import { ChangeEvent, FormEvent, useCallback, useContext, useState } from "react";
-import API from "../../apiPath";
-import { TokenContext } from "../../TokenContext";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
+import API from "@src/apiPath";
+import { TokenContext } from "@src/TokenContext";
 
 export default () => {
   const location = useLocation();

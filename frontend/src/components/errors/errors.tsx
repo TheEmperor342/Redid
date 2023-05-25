@@ -1,4 +1,4 @@
-import { IErrorsState } from "../../types";
+import { IErrorsState } from "@types";
 
 export default ({
   errors,

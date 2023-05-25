@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import { ErrorsReducer, IErrorsState, ErrorsAction } from "./types";
-import Home from "./pages/home";
-import Navbar from "./components/navbar";
-import SignUp from "./pages/signUp";
-import SignIn from "./pages/signIn";
-import Errors from "./components/errors";
+import { ErrorsReducer, IErrorsState, ErrorsAction } from "@types";
+import Home from "@pages/home/index";
+import Navbar from "@components/navbar";
+import SignUp from "@pages/signUp";
+import SignIn from "@pages/signIn";
+import Errors from "@components/errors";
 import { useCallback, useReducer } from "react";
-import Post from "./pages/post";
-import Settings from "./pages/settings";
-import User from "./pages/user/user";
+import Post from "@pages/post";
+import Settings from "@pages/settings";
+import User from "@pages/user/user";
 
 const errorsReducer = (
   state: IErrorsState[],
