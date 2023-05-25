@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../card/card";
-import { userPostsProps } from "../../types";
+import Card from "@components/card/card";
+import { userPostsProps } from "@types";
 import "./index.css";
 
 const userPosts: React.FC<userPostsProps> = ({ posts, username, postsDispatch, newError }) => (

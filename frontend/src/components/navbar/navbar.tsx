@@ -1,9 +1,9 @@
 import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
-import API from "../../apiPath";
+import API from "@src/apiPath";
 import { useContext } from "react";
-import { TokenContext } from "../../TokenContext";
-import { IErrorsState } from "../../types";
+import { TokenContext } from "@src/TokenContext";
+import { IErrorsState } from "@types";
 
 export default ({
   newError,

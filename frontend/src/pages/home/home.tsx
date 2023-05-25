@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Card from "../../components/card/card";
-import API from "../../apiPath";
+import Card from "@components/card/card";
+import API from "@src/apiPath";
 import "./index.css";
-import { GenericPageProps} from "../../types";
-import usePostsReducer from "../../hooks/usePostsReducer";
+import { GenericPageProps } from "@types";
+import usePostsReducer from "@hooks/usePostsReducer";
 
 export default ({ newError }: GenericPageProps) => {
   const [data, dataDispatch] = usePostsReducer([]);

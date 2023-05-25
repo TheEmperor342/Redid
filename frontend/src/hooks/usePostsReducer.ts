@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { IPost, PostsAction, PostsReducer } from "../types";
+import { IPost, PostsAction, PostsReducer } from "@types";
 
 const reducer = (state: IPost[], action: PostsAction): IPost[] => {
   switch (action.type) {

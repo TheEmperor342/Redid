@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { IPost, OrganisedPostAction, OrganisedPostsReducer } from "../types";
+import { IPost, OrganisedPostAction, OrganisedPostsReducer } from "@types";
 
 const reducer = (
   state: { [key: string]: Omit<IPost, "guild">[] },

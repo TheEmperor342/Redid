@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import "./style.css";
-import { CardProps } from "../../types";
+import { CardProps } from "@types";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
 import { MdDeleteForever } from "react-icons/md";
-import API from "../../apiPath";
-import { TokenContext } from "../../TokenContext";
+import API from "@src/apiPath";
+import { TokenContext } from "@src/TokenContext";
 
 const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -104,7 +104,7 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
           </p>
         )}
         <p>{isError ? "Couldn't fetch data" : likes}</p>
-        <BsDot/>
+        <BsDot />
         {data.poster === username ? (
           <>
             <button onClick={handleDelete}>

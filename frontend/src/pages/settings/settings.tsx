@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from "react";
-import { GenericPageProps } from "../../types";
+import { GenericPageProps } from "@types";
 import { Navigate, useLocation } from "react-router-dom";
-import { TokenContext } from "../../TokenContext";
-import API from "../../apiPath";
-import useOrganisedPostsReducer from "../../hooks/useOrganisedPostReducer";
-import UserPosts from "../../components/userPosts/userPosts";
+import { TokenContext } from "@src/TokenContext";
+import API from "@src/apiPath";
+import useOrganisedPostsReducer from "@hooks/useOrganisedPostReducer";
+import UserPosts from "@components/userPosts/userPosts";
 
 const Settings: React.FC<GenericPageProps> = ({ newError }) => {
   const location = useLocation();
