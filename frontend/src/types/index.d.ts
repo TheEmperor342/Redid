@@ -18,11 +18,12 @@ export interface CardProps {
   newError: newError;
 }
 
-export interface userPostsProps {
+export interface OrganisedPostsViewProps {
   posts: OrganisedPosts;
-  username: string;
   postsDispatch: React.Dispatch<OrganisedPostAction>;
   newError: newError;
+  sidebarText: string;
+  topText: stirng;
 }
 
 // ****************

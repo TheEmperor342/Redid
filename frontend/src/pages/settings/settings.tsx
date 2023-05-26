@@ -4,7 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { TokenContext } from "@src/TokenContext";
 import API from "@src/apiPath";
 import useOrganisedPostsReducer from "@hooks/useOrganisedPostReducer";
-import UserPosts from "@components/userPosts/userPosts";
+import OrganisedPostsView from "@components/organisedPostsView";
 
 const Settings: React.FC<GenericPageProps> = ({ newError }) => {
   const location = useLocation();
@@ -53,11 +53,12 @@ const Settings: React.FC<GenericPageProps> = ({ newError }) => {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
   return (
-    <UserPosts
+    <OrganisedPostsView
       posts={posts}
-      username={username}
+      topText={username}
       postsDispatch={postsDispatch}
       newError={newError}
+      sidebarText="Guilds you have posted in"
     />
   );
 };

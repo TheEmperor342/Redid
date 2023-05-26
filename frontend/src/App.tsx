@@ -9,6 +9,7 @@ import { useCallback, useReducer } from "react";
 import Post from "@pages/post";
 import Settings from "@pages/settings";
 import User from "@pages/user/user";
+import "@src/index.css";
 
 const errorsReducer = (
   state: IErrorsState[],
@@ -39,23 +40,11 @@ export default () => {
       <Navbar newError={newError} />
       <Routes>
         <Route path="/" element={<Home newError={newError} />} />
-        <Route
-          path="/sign-up"
-          element={<SignUp/>}
-        />
-        <Route
-          path="/sign-in"
-          element={<SignIn/>}
-        />
-        <Route
-          path="/post"
-          element={<Post newError={newError} />}
-        />
-        <Route
-          path="/settings"
-          element={<Settings newError={newError} />}
-        />
-        <Route path="/u/:username" element={<User newError={newError}/>}/>
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/post" element={<Post newError={newError} />} />
+        <Route path="/settings" element={<Settings newError={newError} />} />
+        <Route path="/u/:username" element={<User newError={newError} />} />
       </Routes>
       <Errors errors={errors} remove={remove} />
     </>

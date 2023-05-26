@@ -1,12 +1,17 @@
 import React from "react";
 import Card from "@components/card/card";
-import { userPostsProps } from "@types";
-import "./index.css";
+import { OrganisedPostsViewProps } from "@types";
 
-const userPosts: React.FC<userPostsProps> = ({ posts, username, postsDispatch, newError }) => (
-  <div className="organisedPostsContainer">
-    <div className="organisedPostsSidebar">
-      <h4>Guilds you have posted in</h4>
+const organisedPostsView: React.FC<OrganisedPostsViewProps> = ({
+  posts,
+  postsDispatch,
+  newError,
+  topText,
+  sidebarText,
+}) => (
+  <div className="PostsViewContainer">
+    <div className="PostsViewSidebar">
+      <h4>{sidebarText}</h4>
       {Object.keys(posts).map((guild) => (
         <React.Fragment key={self.crypto.randomUUID()}>
           <a href={"#" + guild}>{guild}</a>
@@ -14,8 +19,8 @@ const userPosts: React.FC<userPostsProps> = ({ posts, username, postsDispatch, n
         </React.Fragment>
       ))}
     </div>
-    <div className="organisedPosts">
-      <h1>{username}</h1>
+    <div className="PostsViewMain">
+      <h1>{topText}</h1>
       {Object.keys(posts).map((guild) => (
         <div className="guildPosts" key={self.crypto.randomUUID()} id={guild}>
           <h3>{guild}</h3>
@@ -38,4 +43,4 @@ const userPosts: React.FC<userPostsProps> = ({ posts, username, postsDispatch, n
   </div>
 );
 
-export default userPosts;
+export default organisedPostsView;

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useLocation, useParams } from "react-router-dom";
 import { GenericPageProps } from "@types";
-import UserPosts from "@components/userPosts";
+import OrganisedPostsView from "@components/organisedPostsView";
 import useOrganisedPostsReducer from "@hooks/useOrganisedPostReducer";
 import API from "@src/apiPath";
 import { TokenContext } from "@src/TokenContext";
@@ -19,7 +19,7 @@ const User: React.FC<GenericPageProps> = ({ newError }) => {
     return <Navigate to="/settings" state={{ from: location }} replace />;
 
   const [posts, postsDispatch] = useOrganisedPostsReducer({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userExists, setUserExists] = useState<boolean>(true);
 
   useEffect(() => {
@@ -42,11 +42,12 @@ const User: React.FC<GenericPageProps> = ({ newError }) => {
   };
   return !isLoading ? (
     userExists ? (
-      <UserPosts
+      <OrganisedPostsView
         posts={posts}
-        username={username as string}
         postsDispatch={postsDispatch}
         newError={newError}
+        topText={username}
+        sidebarText={`Guilds ${username} has posted in`}
       />
     ) : (
       <h1> Not found </h1>
