@@ -96,3 +96,12 @@ Authorization: Bearer {{token}}
 ### Unlike Post
 GET http://localhost:{{port}}/api/posts/:id/unlike
 Authorization: Bearer {{token}}
+
+### Patch Posts
+PATCH http://localhost:{{port}}/api/posts/:id
+Authorization: Bearer {{token}}
+# providing title and content both is not required.
+{
+  "title": "a title",
+  "content": "a content"
+}
