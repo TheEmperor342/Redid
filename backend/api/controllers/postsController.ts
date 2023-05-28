@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
-import { jwtPayloadOverride } from "../types";
+import { TPost, jwtPayloadOverride } from "../types";
 import { Posts, Guilds } from "../models";
 
+const MAX_TITLE_LENGTH = 30;
+const MAX_CONTENT_LENGTH = 1000;
+
+/* POST /api/posts/ */
 const post = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -16,9 +20,11 @@ const post = errorHandler(async (req: Request, res: Response) => {
   if (title === "" || content === "" || guild === "")
     throw new HttpError("title, content or guild not provided", 400);
 
-  if (title.length > 30) throw new HttpError("title too long", 400);
+  if (title.length > MAX_TITLE_LENGTH)
+    throw new HttpError("title too long", 413);
 
-  if (content.length > 1000) throw new HttpError("content too long", 400);
+  if (content.length > MAX_CONTENT_LENGTH)
+    throw new HttpError("content too long", 413);
 
   const guildExists = await Guilds.exists({ name: guild });
   if (!guildExists) throw new HttpError("guild does not exist", 404);
@@ -40,6 +46,9 @@ const post = errorHandler(async (req: Request, res: Response) => {
 
 // ================== //
 
+/* DELETE /api/posts/:postId
+ * Authorization: Bearer <token>
+ */
 const deletePost = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -57,6 +66,7 @@ const deletePost = errorHandler(async (req: Request, res: Response) => {
 
 // ================== //
 
+/* GET /api/posts/ */
 const get = errorHandler(async (req: Request, res: Response) => {
   const number = Number(req.query.number ?? 5);
   if (isNaN(number))
@@ -83,8 +93,9 @@ const get = errorHandler(async (req: Request, res: Response) => {
 
 // ================== //
 
-// POST /api/posts/:id/like/
-// Authorization: Bearer <token>
+/* POST /api/posts/:id/like/
+ * Authorization: Bearer <token>
+ */
 const likePost = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -101,8 +112,9 @@ const likePost = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok", likes: updatedLikeDoc.likedBy.length });
 });
 
-// POST /api/posts/:id/like/
-// Authorization: Bearer <token>
+/* POST /api/posts/:id/like/
+ * Authorization: Bearer <token>
+ */
 const unlikePost = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -116,11 +128,12 @@ const unlikePost = errorHandler(async (req: Request, res: Response) => {
     { new: true }
   );
 
-  res.status(200).json({ status: "ok", likes: updatedLikeDoc!.likedBy.length});
+  res.status(200).json({ status: "ok", likes: updatedLikeDoc!.likedBy.length });
 });
 
-// GET /api/posts/:id/isLikedByMe
-// Authorization: Bearer <token>
+/* GET /api/posts/:id/isLikedByMe
+ * Authorization: Bearer <token> */
+// TODO: Move this to GET /api/posts/
 const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
   const postExists = await Posts.exists({ _id: req.params.id });
@@ -135,11 +148,56 @@ const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok", hasLiked: !user ? false : true });
 });
 
+/* PATCH /api/posts/:id
+ * Authorization: Bearer <token>
+ */
+const patch = errorHandler(async (req: Request, res: Response) => {
+  const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+  const postExists = await Posts.exists({
+    _id: req.params.id,
+    posterId: tokenDecoded.ownerId,
+  });
+
+  if (postExists === null)
+    throw new HttpError(
+      "Either post doesn't exist, or you aren't the owner of the post",
+      404
+    );
+
+  const data: { [key: string]: string | undefined } = {
+    title: req.body.title,
+    content: req.body.content,
+  };
+  const isBodyEmpty = Object.keys(data).every((key) => data[key] === undefined);
+  console.log(isBodyEmpty);
+
+  if (isBodyEmpty) throw new HttpError("no content provided", 400);
+
+  const filteredData: { [key: string]: string } = {};
+
+  Object.keys(data).forEach((field) => {
+    const fieldData = data[field];
+    if (fieldData !== undefined) {
+      const isTitleOrContentTooLarge =
+        (field === "title" && String(fieldData).length > MAX_TITLE_LENGTH) ||
+        (field === "content" && String(fieldData).length > MAX_CONTENT_LENGTH);
+
+      if (isTitleOrContentTooLarge)
+        throw new HttpError("title or content too large", 413);
+      filteredData[field] = String(fieldData);
+    }
+  });
+
+  await Posts.findOneAndUpdate({ _id: req.params.id }, { $set: filteredData });
+  res.status(200).json({ status: "ok" });
+});
+
 export default {
   get,
   post,
   delete: deletePost,
+  patch,
   likePost,
   unlikePost,
-  isLikedByMe
+  isLikedByMe,
 };
