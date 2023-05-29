@@ -220,4 +220,5 @@ export default {
   likePost,
   unlikePost,
   isLikedByMe,
+  getSpecificPostInfo,
 };
