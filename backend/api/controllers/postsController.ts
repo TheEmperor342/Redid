@@ -148,6 +148,27 @@ const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok", hasLiked: !user ? false : true });
 });
 
+/* GET /api/posts/:id */
+const getSpecificPostInfo = errorHandler(
+  async (req: Request, res: Response) => {
+    const post = await Posts.findOne({ _id: req.params.id });
+
+    if (post === null) throw new HttpError("post not found", 404);
+
+    res.status(200).json({
+      status: "ok",
+      data: {
+        _id: post._id,
+        poster: post.poster,
+        guild: post.guild,
+        title: post.title,
+        content: post.content,
+        likes: post.likedBy.length,
+      },
+    });
+  }
+);
+
 /* PATCH /api/posts/:id
  * Authorization: Bearer <token>
  */
@@ -169,7 +190,6 @@ const patch = errorHandler(async (req: Request, res: Response) => {
     content: req.body.content,
   };
   const isBodyEmpty = Object.keys(data).every((key) => data[key] === undefined);
-  console.log(isBodyEmpty);
 
   if (isBodyEmpty) throw new HttpError("no content provided", 400);
 
