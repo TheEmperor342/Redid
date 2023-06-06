@@ -1,7 +1,12 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { GenericPageProps, TokenContent } from "@types";
 import { TokenContext } from "@src/TokenContext";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { IPost } from "@types";
 import API from "@src/apiPath";
 
@@ -16,7 +21,7 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
   const [isError, setIsError] = useState<boolean>(false);
   const [dataState, setDataState] = useState<IPost[]>([]);
   const navigate = useNavigate();
-  const [original, setOriginal] = useState<{[key: string]: string}>({});
+  const [original, setOriginal] = useState<{ [key: string]: string }>({});
   const tokenDecoded: TokenContent = JSON.parse(atob(token.split(".")[1]));
 
   useEffect(() => {
@@ -28,9 +33,10 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
           title: "Error",
           error: "You are not the owner of the post",
         });
+        navigate("/");
       }
 
-      setOriginal({title: post.title, content: post.content});
+      setOriginal({ title: post.title, content: post.content });
       setDataState([post]);
     });
   }, []);
@@ -63,14 +69,15 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const body: {[key: string]: string} = {};
+    const body: { [key: string]: string } = {};
     if (dataState[0].title !== original.title) body.title = dataState[0].title;
-    if (dataState[0].content !== original.content) body.content = dataState[0].content;
+    if (dataState[0].content !== original.content)
+      body.content = dataState[0].content;
     if (Object.keys(body).length === 0) {
       newError({
         id: self.crypto.randomUUID(),
         title: "Unmodified data",
-        error: "You haven't modified the data"
+        error: "You haven't modified the data",
       });
       return;
     }
@@ -79,7 +86,7 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
@@ -88,12 +95,12 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
       newError({
         id: self.crypto.randomUUID(),
         title: "Unknown error occured",
-        error: `${res.status}: ${res.statusText}`
+        error: `${res.status}: ${res.statusText}`,
       });
       return;
     }
     navigate("/settings");
-  }
+  };
 
   return dataState.length !== 0 ? (
     <div className="modifyPostContainer">
