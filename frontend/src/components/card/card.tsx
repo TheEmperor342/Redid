@@ -3,7 +3,7 @@ import "./style.css";
 import { CardProps } from "@types";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsDot } from "react-icons/bs";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdModeEditOutline } from "react-icons/md";
 import API from "@src/apiPath";
 import { TokenContext } from "@src/TokenContext";
 
@@ -104,11 +104,17 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
           </p>
         )}
         <p>{isError ? "Couldn't fetch data" : likes}</p>
-        <BsDot />
         {data.poster === username ? (
           <>
+            <BsDot />
             <button onClick={handleDelete}>
               <MdDeleteForever />
+            </button>
+            <BsDot />
+            <button>
+            <a href={`/modifyPost/${data._id}`}>
+              <MdModeEditOutline />
+              </a>
             </button>
           </>
         ) : (
