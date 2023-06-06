@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
-import { TPost, jwtPayloadOverride } from "../types";
+import { jwtPayloadOverride } from "../types";
 import { Posts, Guilds } from "../models";
 
 const MAX_TITLE_LENGTH = 30;
