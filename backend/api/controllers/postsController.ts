@@ -6,7 +6,16 @@ import { Posts, Guilds } from "../models";
 const MAX_TITLE_LENGTH = 30;
 const MAX_CONTENT_LENGTH = 1000;
 
-/* POST /api/posts/ */
+/* POST api/posts
+ * Authorization: Bearer <token>
+ * Content-Type: application/json
+ * 
+ * {
+ *   "title": string,
+ *   "content": string,
+ *   "guild": string
+ * }
+ */
 const post = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -112,10 +121,10 @@ const likePost = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok", likes: updatedLikeDoc.likedBy.length });
 });
 
-/* POST /api/posts/:id/like/
+/* POST /api/posts/:id/dislike/
  * Authorization: Bearer <token>
  */
-const unlikePost = errorHandler(async (req: Request, res: Response) => {
+const dislikePost = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
   const postExists = await Posts.exists({ _id: req.params.id });
@@ -132,7 +141,8 @@ const unlikePost = errorHandler(async (req: Request, res: Response) => {
 });
 
 /* GET /api/posts/:id/isLikedByMe
- * Authorization: Bearer <token> */
+ * Authorization: Bearer <token> 
+ */
 // TODO: Move this to GET /api/posts/
 const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
@@ -171,6 +181,12 @@ const getSpecificPostInfo = errorHandler(
 
 /* PATCH /api/posts/:id
  * Authorization: Bearer <token>
+ * Content-Type: application/json
+ *
+ * {
+ *   title?: string,
+ *   content?: string
+ * }
  */
 const patch = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
@@ -218,7 +234,7 @@ export default {
   delete: deletePost,
   patch,
   likePost,
-  unlikePost,
+  dislikePost,
   isLikedByMe,
   getSpecificPostInfo,
 };

@@ -36,8 +36,8 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
     setIsLiked(json.hasLiked);
   }, []);
 
-  const likeOrUnlike = async () => {
-    const path = `${API}/api/posts/${data._id}/${isLiked ? "unlike" : "like"}`;
+  const likeOrDislike = async () => {
+    const path = `${API}/api/posts/${data._id}/${isLiked ? "dislike" : "like"}`;
 
     const res = await fetch(path, {
       method: "POST",
@@ -92,7 +92,7 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
       <div className="cardUpDownButtons">
         {token !== null ? (
           <>
-            <button onClick={likeOrUnlike}>
+            <button onClick={likeOrDislike}>
               {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
             </button>
             <BsDot />

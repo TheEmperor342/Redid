@@ -93,8 +93,8 @@ GET http://localhost:{{port}}/api/user/:user/guilds
 GET http://localhost:{{port}}/api/posts/:id/like
 Authorization: Bearer {{token}}
 
-### Unlike Post
-GET http://localhost:{{port}}/api/posts/:id/unlike
+### dislike Post
+GET http://localhost:{{port}}/api/posts/:id/dislike
 Authorization: Bearer {{token}}
 
 ### Patch Posts
