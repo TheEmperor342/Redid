@@ -3,6 +3,14 @@ import { Accounts, Tokens } from "../../models";
 import { HttpError, errorHandler, sign } from "../../utils";
 import bcrypt from "bcrypt";
 
+/* POST /api/auth/sign-in
+ * Content-Type: application/json
+ *
+ * {
+ *   "username": string,
+ *   "password": string
+ * }
+ */
 const post = errorHandler(async (req: Request, res: Response) => {
   if (!req.body.username || !req.body.password)
     throw new HttpError("username or password not provided", 400);

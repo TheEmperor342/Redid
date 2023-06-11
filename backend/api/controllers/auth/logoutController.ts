@@ -3,6 +3,9 @@ import { errorHandler } from "../../utils";
 import { jwtPayloadOverride } from "../../types";
 import { Tokens } from "../../models";
 
+/* DELETE /api/auth/logout
+ * Authorization: Bearer <token>
+ */
 const logout = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 

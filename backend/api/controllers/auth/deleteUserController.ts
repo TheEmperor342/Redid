@@ -3,8 +3,10 @@ import { HttpError, errorHandler } from "../../utils";
 import { jwtPayloadOverride } from "../../types";
 import { Accounts, Tokens, Posts, Guilds } from "../../models";
 
+/* DELETE /api/auth/delete-user
+ * Authorization: Bearer <token> 
+ */
 const deleteUser = errorHandler(async (req: Request, res: Response) => {
-  // Token from verifyToken middleware
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
   const account = await Accounts.findOne({
     _id: tokenDecoded.ownerId,
