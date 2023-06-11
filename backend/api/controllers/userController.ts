@@ -3,8 +3,9 @@ import { HttpError, errorHandler } from "../utils";
 import { Guilds, Posts, Accounts } from "../models";
 import { jwtPayloadOverride, TPost, PostDoc, GuildDoc } from "../types";
 
-/* /api/user/guilds */
-// This is to get guilds of the current user
+/* GET /api/user/guilds 
+ * Authorization: Bearer <token>
+ */
 const getGuilds = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -13,7 +14,9 @@ const getGuilds = errorHandler(async (req: Request, res: Response) => {
   res.status(200).json({ status: "ok", data: guilds.map((el) => el.name) });
 });
 
-/* /api/user/posts */
+/* GET /api/user/posts
+ * Authorization: Bearer <token>
+ */
 // This is to get posts of the current user
 const getPosts = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
@@ -37,7 +40,7 @@ const getPosts = errorHandler(async (req: Request, res: Response) => {
   });
 });
 
-/* /api/user/:user/posts */
+/* GET /api/user/:user/posts */
 const getUserPosts = errorHandler(async (req: Request, res: Response) => {
   const user = req.params.user;
 
@@ -61,7 +64,7 @@ const getUserPosts = errorHandler(async (req: Request, res: Response) => {
   });
 });
 
-/* /api/user/:user/guilds */
+/* GET /api/user/:user/guilds */
 const getUserGuilds = errorHandler(async (req: Request, res: Response) => {
   const user = req.params.user;
 

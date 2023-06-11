@@ -3,6 +3,14 @@ import { HttpError, errorHandler } from "../utils";
 import { jwtPayloadOverride } from "../types";
 import { Guilds, Posts } from "../models";
 
+/* POST api/guilds
+ * Authorization: Bearer <token>
+ * Content-Type: application/json
+ * 
+ * {
+ *   "name": string
+ * }
+ */
 const post = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -20,22 +28,25 @@ const post = errorHandler(async (req: Request, res: Response) => {
   if (guildsCreatedByUser.length >= 5)
     throw new HttpError("user has created >= 5 guilds", 403);
 
-  const guildExists = await Guilds.exists({ name: guildName });
-
-  if (guildExists) throw new HttpError("guild exists", 409);
-
-  const guild = new Guilds({
-    owner: tokenDecoded.ownerId,
-    name: guildName,
-  });
-
-  await guild.save();
+  try {
+    const guild = new Guilds({
+      owner: tokenDecoded.ownerId,
+      name: guildName,
+    });
+    await guild.save();
+  } catch (err: any) {
+    if (err.code === 11000) throw new HttpError("guild exists", 409);
+    else throw new HttpError(String(err));
+  }
 
   res.status(201).json({ status: "ok" });
 });
 
 // ================== //
 
+/* DELETE api/guilds/:guildName
+ * Authorization: Bearer <token>
+ */
 const deleteGuild = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -53,6 +64,8 @@ const deleteGuild = errorHandler(async (req: Request, res: Response) => {
 });
 
 // ================== //
+
+// GET /api/guilds?number
 
 const get = errorHandler(async (req: Request, res: Response) => {
   const number: number = Number(req.query.number ?? 5);

@@ -3,6 +3,14 @@ import { Accounts, Tokens } from "../../models";
 import { HttpError, sign } from "../../utils";
 import { errorHandler } from "../../utils";
 
+/* POST /api/auth/sign-up 
+ * Content-Type: application/json
+ *
+ * {
+ *   "username": string,
+ *   "password": string
+ * }
+ */
 const post = errorHandler(async (req: Request, res: Response) => {
   // Get username and password from request
   if (!req.body.username || !req.body.password)
