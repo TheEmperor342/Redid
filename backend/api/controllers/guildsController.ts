@@ -19,7 +19,7 @@ const post = errorHandler(async (req: Request, res: Response) => {
   const guildName = (req.body.name as String).trim();
 
   if (guildName === "") throw new HttpError("guild name not provided", 400);
-  if (guildName.length > 16) throw new HttpError("guild name too long", 400);
+  if (guildName.length > 16) throw new HttpError("guild name too long", 413);
 
   const guildsCreatedByUser = await Guilds.find({
     owner: tokenDecoded.ownerId,
@@ -89,7 +89,7 @@ const get = errorHandler(async (req: Request, res: Response) => {
 
 // ================== //
 
-// api/guilds/:guild/posts
+// GET api/guilds/:guild/posts
 const getGuildPosts = errorHandler(async (req: Request, res: Response) => {
   const number: number = Number(req.query.number ?? 15);
   if (isNaN(number))

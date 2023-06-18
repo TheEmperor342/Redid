@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
 import { jwtPayloadOverride } from "../types";
 import { Posts, Guilds } from "../models";
+import mongoose from "mongoose";
 
 const MAX_TITLE_LENGTH = 30;
 const MAX_CONTENT_LENGTH = 1000;
@@ -9,7 +10,7 @@ const MAX_CONTENT_LENGTH = 1000;
 /* POST api/posts
  * Authorization: Bearer <token>
  * Content-Type: application/json
- * 
+ *
  * {
  *   "title": string,
  *   "content": string,
@@ -108,17 +109,22 @@ const get = errorHandler(async (req: Request, res: Response) => {
 const likePost = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
-  const postExists = await Posts.exists({ _id: req.params.id });
+  try {
+    const updatedLikeDoc = await Posts.findOneAndUpdate(
+      { _id: req.params.id },
+      { $addToSet: { likedBy: tokenDecoded.ownerId } },
+      { new: true }
+    );
+    if (updatedLikeDoc === null) throw new HttpError("Post not found", 404);
 
-  if (postExists === null) throw new HttpError("Post not found", 404);
-
-  const updatedLikeDoc = await Posts.findOneAndUpdate(
-    { _id: req.params.id },
-    { $addToSet: { likedBy: tokenDecoded.ownerId } },
-    { new: true, upsert: true }
-  );
-
-  res.status(200).json({ status: "ok", likes: updatedLikeDoc.likedBy.length });
+    res
+      .status(200)
+      .json({ status: "ok", likes: updatedLikeDoc.likedBy.length });
+  } catch (err) {
+    if (err instanceof mongoose.Error.CastError)
+      throw new HttpError("Invalid ID", 400);
+    else throw new HttpError(String(err));
+  }
 });
 
 /* POST /api/posts/:id/dislike/
@@ -131,17 +137,26 @@ const dislikePost = errorHandler(async (req: Request, res: Response) => {
 
   if (postExists === null) throw new HttpError("Post not found", 404);
 
-  const updatedLikeDoc = await Posts.findOneAndUpdate(
-    { _id: req.params.id },
-    { $pull: { likedBy: tokenDecoded.ownerId } },
-    { new: true }
-  );
+  try {
+    const updatedLikeDoc = await Posts.findOneAndUpdate(
+      { _id: req.params.id },
+      { $pull: { likedBy: tokenDecoded.ownerId } },
+      { new: true }
+    );
+    if (updatedLikeDoc === null) throw new HttpError("Post not found", 404);
 
-  res.status(200).json({ status: "ok", likes: updatedLikeDoc!.likedBy.length });
+    res
+      .status(200)
+      .json({ status: "ok", likes: updatedLikeDoc.likedBy.length });
+  } catch (err) {
+    if (err instanceof mongoose.Error.CastError)
+      throw new HttpError("Invalid ID", 400);
+    else throw new HttpError(String(err));
+  }
 });
 
 /* GET /api/posts/:id/isLikedByMe
- * Authorization: Bearer <token> 
+ * Authorization: Bearer <token>
  */
 // TODO: Move this to GET /api/posts/
 const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
