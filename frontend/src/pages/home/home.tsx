@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Card from "@components/card/card";
 import API from "@src/apiPath";
-import "./index.css";
 import { GenericPageProps } from "@types";
+import "./style.css";
 import usePostsReducer from "@hooks/usePostsReducer";
 
 export default ({ newError }: GenericPageProps) => {
@@ -45,7 +45,7 @@ export default ({ newError }: GenericPageProps) => {
   };
 
   return (
-    <div className="content">
+    <div className="home">
       {isLoading && <h1>Loading</h1>}
       {error && <h1>Error</h1>}
       {data.map((el) => (

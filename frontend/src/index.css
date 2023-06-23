@@ -1,23 +1,44 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
 :root {
   --bg: #000;
-  --nav-h3: #fff;
+  --accent-transparent: rgba(177,124,157,0.2);
+  --text: #f4ecf1;
+  --primary: #a76c92;
+  --secondary: #100a0e;
+  --accent: #b17c9d;
 }
 
 * {
   margin: 0px;
   padding: 0px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 h1 {
   font-weight: 900;
+}
+html {
+  background: var(--bg);
+  color: var(--text);
+  height: 100%;
 }
 html,
 body,
 #root {
   width: 100%;
   height: 100%;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .PostsViewSidebar{
@@ -26,4 +47,13 @@ body,
 }
 .PostsViewMain {
   margin-left: 15rem;
+}
+.primary-btn {
+  color: var(--bg);
+  background: var(--primary);
+  border: 1px solid var(--accent);
+  transition: background 250ms;
+}
+.primary-btn:hover {
+  background: var(--accent);
 }
