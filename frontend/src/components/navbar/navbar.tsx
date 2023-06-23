@@ -69,7 +69,7 @@ export default ({
               <p>Settings</p>
             </Link>
             <p> Logged In </p>
-            <button onClick={handleLogout}>Logout</button>
+            <button className="primary-btn" onClick={handleLogout}>Logout</button>
           </>
         ) : (
           <>

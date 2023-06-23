@@ -92,30 +92,33 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
       <div className="cardUpDownButtons">
         {token !== null ? (
           <>
-            <button onClick={likeOrDislike}>
+            <button
+              onClick={likeOrDislike}
+              className={"primary-btn " + (isLiked ? "clicked" : "")}
+            >
               {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
             </button>
             <BsDot />
           </>
         ) : (
-          <p>
+          <>
             <AiOutlineHeart />
             <BsDot />
-          </p>
+          </>
         )}
         <p>{isError ? "Couldn't fetch data" : likes}</p>
         {data.poster === username ? (
           <>
             <BsDot />
-            <button onClick={handleDelete}>
+            <button onClick={handleDelete} className="primary-btn">
               <MdDeleteForever />
             </button>
             <BsDot />
-            <button>
             <a href={`/modifyPost/${data._id}`}>
-              <MdModeEditOutline />
-              </a>
-            </button>
+              <button className="primary-btn">
+                <MdModeEditOutline />
+              </button>
+            </a>
           </>
         ) : (
           <></>

@@ -1,0 +1,15 @@
+.signInContainer {
+  height: calc(100vh - 3rem);
+  height: calc(100svh - 3rem);
+
+  display: grid;
+  place-items: center;
+}
+
+.signInWrapper {
+  background: var(--secondary);
+  height: 50vh;
+  width: 50vw;
+  display: grid;
+  place-items: center;
+}
