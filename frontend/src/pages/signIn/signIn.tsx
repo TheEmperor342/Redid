@@ -1,5 +1,4 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import "./index.css";
 import {
   ChangeEvent,
   FormEvent,
@@ -65,39 +64,38 @@ export default () => {
   }, []);
 
   return (
-    <div className="signInContainer">
-      <div className="signInWrapper">
-        <div className="signInInnerWrapper">
+    <div className="loginContainer">
+      <div className="loginWrapper">
+        <form onSubmit={handleSubmit} className="loginForm">
+        <h1>Sign in to RedditClone</h1>
           {error.error && (
             <p>
               <strong>Error: </strong>
               {error.message}
             </p>
           )}
-          <form onSubmit={handleSubmit}>
-            <label>
-              Username: <br />
-              <input
-                type="text"
-                value={usernameVal}
-                onChange={handleUsernameChange}
-              />
-            </label>
-            <br />
-            <label>
-              Password: <br />
-              <input
-                type="password"
-                value={passwordVal}
-                onChange={handlePasswordChange}
-              />
-            </label>
-            <br />
-            <button type="submit" className="primary-btn">
-              Sign In
-            </button>
-          </form>
-        </div>
+          <label>
+            Username: <br />
+            <input
+              type="text"
+              value={usernameVal}
+              onChange={handleUsernameChange}
+            />
+          </label>
+          <br />
+          <label>
+            Password: <br />
+            <input
+              type="password"
+              value={passwordVal}
+              onChange={handlePasswordChange}
+            />
+          </label>
+          <br />
+          <button type="submit" className="primary-btn">
+            Sign In
+          </button>
+        </form>
       </div>
     </div>
   );
