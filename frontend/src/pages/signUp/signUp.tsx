@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 import API from "@src/apiPath";
-import "./index.css";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { TokenContext } from "@src/TokenContext";
 
@@ -66,34 +65,39 @@ export default () => {
   }, []);
 
   return (
-    <div className="signUpContainer">
-      {error.error && (
-        <p>
-          <strong>Error: </strong>
-          {error.message}
-        </p>
-      )}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username: <br />
-          <input
-            type="text"
-            value={usernameVal}
-            onChange={handleUsernameChange}
-          />
-        </label>{" "}
-        <br />
-        <label>
-          Password: <br />
-          <input
-            type="password"
-            value={passwordVal}
-            onChange={handlePasswordChange}
-          />
-        </label>{" "}
-        <br />
-        <button type="submit">Sign Up</button>
-      </form>
+    <div className="loginContainer">
+      <div className="loginWrapper">
+        <form className="loginForm" onSubmit={handleSubmit}>
+          <h1>Sign up to RedditClone</h1>
+          {error.error && (
+            <p>
+              <strong>Error: </strong>
+              {error.message}
+            </p>
+          )}
+          <label>
+            Username: <br />
+            <input
+              type="text"
+              value={usernameVal}
+              onChange={handleUsernameChange}
+            />
+          </label>{" "}
+          <br />
+          <label>
+            Password: <br />
+            <input
+              type="password"
+              value={passwordVal}
+              onChange={handlePasswordChange}
+            />
+          </label>{" "}
+          <br />
+          <button type="submit" className="primary-btn">
+            Sign Up
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -28,6 +28,23 @@ body,
   width: 100%;
   height: 100%;
 }
+input[type=text],
+input[type=password] {
+  background: var(--bg);
+  font-family: inherit;
+  border: 1px solid var(--accent);
+  font-size: inherit;
+  border-radius: 5px;
+  color: var(--text);
+  padding: 5px;
+  outline: 0;
+  transition: box-shadow 250ms;
+}
+
+input[type=text]:focus,
+input[type=password]:focus {
+  box-shadow: 2px 0px 5px var(--accent);
+}
 a {
   text-decoration: none;
   color: inherit;
@@ -39,6 +56,7 @@ button {
   cursor: pointer;
   border-radius: 5px;
   text-align: center;
+  outline-color: 0;
 }
 
 .PostsViewSidebar{
@@ -56,4 +74,26 @@ button {
 }
 .primary-btn:hover {
   background: var(--accent);
+}
+.loginContainer {
+  min-height: calc(100vh - 3rem);
+  min-height: calc(100svh - 3rem);
+  display: grid;
+  place-items: center;
+}
+
+.loginWrapper {
+  min-height: 50vh;
+  width: 50vw;
+  display: grid;
+  place-items: center;
+}
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  max-width: min-content;
+  gap: 0.5rem;
+}
+.loginForm button {
+  padding: 5px;
 }
