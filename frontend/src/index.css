@@ -7,6 +7,7 @@
   --primary: #a76c92;
   --secondary: #100a0e;
   --accent: #b17c9d;
+  --error:	#ff5c93;
 }
 
 * {
@@ -96,4 +97,7 @@ button {
 }
 .loginForm button {
   padding: 5px;
+}
+.root {
+  position: relative;
 }

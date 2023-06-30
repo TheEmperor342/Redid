@@ -1,0 +1,27 @@
+.errors {
+  width: 16rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  display: grid;
+  gap: .5rem;
+  margin-right: 1rem;
+}
+.error + .error, .errors >:last-child {
+  margin-bottom: 1rem;
+}
+.error {
+  animation: addin 250ms;
+  background: var(--error);
+  color: var(--bg);
+  padding: 1rem;
+  border-radius: 5px;
+}
+@keyframes addin {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}

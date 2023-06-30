@@ -1,4 +1,5 @@
 import { IErrorsState } from "@types";
+import "./errors.css";
 
 export default ({
   errors,
@@ -23,7 +24,7 @@ const Error = ({
 }) => {
   setTimeout(() => {
     remove(error);
-  }, 3000);
+  }, 5000);
   return (
     <div className="error">
       <h3>{error.title}</h3>
