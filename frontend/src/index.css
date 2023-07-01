@@ -21,6 +21,9 @@ h1 {
 h1, p {
   width: fit-content;
 }
+p {
+  line-height: 1.5;
+}
 html {
   background: var(--bg);
   color: var(--text);
