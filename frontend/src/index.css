@@ -18,6 +18,9 @@
 h1 {
   font-weight: 900;
 }
+h1, p {
+  width: fit-content;
+}
 html {
   background: var(--bg);
   color: var(--text);
@@ -60,13 +63,6 @@ button {
   outline-color: 0;
 }
 
-.PostsViewSidebar{
-  position: fixed;
-  width: 15rem;
-}
-.PostsViewMain {
-  margin-left: 15rem;
-}
 .primary-btn {
   color: var(--bg);
   background: var(--primary);

@@ -6,6 +6,7 @@ import { BsDot } from "react-icons/bs";
 import { MdDeleteForever, MdModeEditOutline } from "react-icons/md";
 import API from "@src/apiPath";
 import { TokenContext } from "@src/TokenContext";
+import { Link } from "react-router-dom";
 
 const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -114,11 +115,11 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
               <MdDeleteForever />
             </button>
             <BsDot />
-            <a href={`/modifyPost/${data._id}`}>
+            <Link to={`/modifyPost/${data._id}`}>
               <button className="primary-btn">
                 <MdModeEditOutline />
               </button>
-            </a>
+            </Link>
           </>
         ) : (
           <></>
