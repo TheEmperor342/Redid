@@ -42,8 +42,8 @@ export default () => {
       <Navbar newError={newError} />
       <Routes>
         <Route path="/" element={<Home newError={newError} />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp newError={newError} />} />
+        <Route path="/sign-in" element={<SignIn newError={newError} />} />
         <Route path="/post" element={<Post newError={newError} />} />
         <Route
           path="/modifyPost/:postId"

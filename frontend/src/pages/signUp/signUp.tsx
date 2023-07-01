@@ -1,4 +1,4 @@
-import {
+import React, {
   ChangeEvent,
   FormEvent,
   useCallback,
@@ -8,8 +8,9 @@ import {
 import API from "@src/apiPath";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { TokenContext } from "@src/TokenContext";
+import { GenericPageProps } from "@types";
 
-export default () => {
+const SignUp: React.FC<GenericPageProps> = ({ newError }) => {
   const location = useLocation();
 
   const { token, setToken } = useContext(TokenContext);
@@ -19,7 +20,6 @@ export default () => {
 
   const [usernameVal, setUsernameVal] = useState("");
   const [passwordVal, setPasswordVal] = useState("");
-  const [error, setError] = useState({ error: false, message: "" });
   const navigate = useNavigate();
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +45,10 @@ export default () => {
       });
 
       if (!res.ok) {
-        setError({
-          error: true,
-          message:
+        newError({
+          id: self.crypto.randomUUID(),
+          title: "Error",
+          error:
             res.statusText === "Conflict"
               ? "User exists"
               : "Unknown error occured",
@@ -60,7 +61,11 @@ export default () => {
       navigate("/");
     } catch (err: any) {
       console.log(err);
-      setError({ error: true, message: "Unknown error occured" });
+      newError({
+        id: self.crypto.randomUUID(),
+        title: "Error",
+        error: String(err),
+      });
     }
   }, []);
 
@@ -69,12 +74,6 @@ export default () => {
       <div className="loginWrapper">
         <form className="loginForm" onSubmit={handleSubmit}>
           <h1>Sign up to RedditClone</h1>
-          {error.error && (
-            <p>
-              <strong>Error: </strong>
-              {error.message}
-            </p>
-          )}
           <label>
             Username: <br />
             <input
@@ -101,3 +100,5 @@ export default () => {
     </div>
   );
 };
+
+export default SignUp;
