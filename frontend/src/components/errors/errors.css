@@ -11,17 +11,26 @@
   margin-bottom: 1rem;
 }
 .error {
-  animation: addin 250ms;
+  animation: comeIn 250ms, moveOut 250ms 4000ms;
+  animation-fill-mode: forwards;
   background: var(--error);
   color: var(--bg);
   padding: 1rem;
   border-radius: 5px;
 }
-@keyframes addin {
+@keyframes comeIn {
   from {
     transform: translateX(100%);
   }
   to {
     transform: translateX(0%);
+  }
+}
+@keyframes moveOut {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(150%);
   }
 }
