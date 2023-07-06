@@ -99,13 +99,14 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
       });
       return;
     }
-    navigate("/settings");
+    navigate("/");
   };
 
   return dataState.length !== 0 ? (
-    <div className="modifyPostContainer">
+    <div className="postContainer">
+    <div className="postContainerWrapper">
       <h1>Edit post</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="postContainerForm">
         <label>
           Title: <br />
           <input
@@ -123,8 +124,9 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
             onChange={handleTextChange}
           />
         </label>
-        <button type="submit">Update Post</button>
+        <button type="submit" className="primary-btn">Update Post</button>
       </form>
+      </div>
     </div>
   ) : (
     <h1>Loading</h1>

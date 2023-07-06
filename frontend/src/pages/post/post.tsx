@@ -119,37 +119,39 @@ const post: React.FC<GenericPageProps> = ({ newError }) => {
 
   return (
     <div className="postContainer">
-      <h3>Create a post</h3>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Title:
+      <div className="postContainerWrapper">
+        <h1>Create a post</h1>
+        <form onSubmit={handleSubmit} className="postContainerForm">
+          <label>
+            Title:
+            <br />
+            <input type="text" value={title} onChange={handleTitleChange} />
+          </label>
           <br />
-          <input type="text" value={title} onChange={handleTitleChange} />
-        </label>
-        <br />
-        <label>
-          Guild:
+          <label>
+            Guild:
+            <br />
+            <input
+              className="whichGuild"
+              type="text"
+              value={guild}
+              onChange={handleGuildChange}
+            />
+          </label>
           <br />
-          <input
-            className="whichGuild"
-            type="text"
-            value={guild}
-            onChange={handleGuildChange}
-          />
-        </label>
-        <br />
-        <label>
-          Content:
+          <label>
+            Content:
+            <br />
+            <textarea
+              className="inputPostContent"
+              value={textArea}
+              onChange={handleTextAreaChange}
+            />
+          </label>
           <br />
-          <textarea
-            className="inputPostContent"
-            value={textArea}
-            onChange={handleTextAreaChange}
-          />
-        </label>
-        <br />
-        <button type="submit">Post</button>
-      </form>
+          <button type="submit" className="primary-btn">Post</button>
+        </form>
+      </div>
     </div>
   );
 };
