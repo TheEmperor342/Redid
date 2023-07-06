@@ -1,4 +1,27 @@
 .inputPostContent {
   height: 10rem;
-  width: 50vw;
+  width: 95%;
+  background: var(--root);
+  color: var(--text);
+}
+.postContainer {
+  height: calc(100vh - 3rem);
+  height: calc(100svh - 3rem);
+  display: grid;
+  place-items: center;
+}
+.postContainerWrapper {
+  min-width: 30%;
+}
+.postContainerForm {
+  display: flex;
+  margin-top: .5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.postContainerForm button {
+  padding: 5px;
+}
+.postContainerForm input {
+  width: 95%;
 }
