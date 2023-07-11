@@ -39,7 +39,7 @@ nav button {
 	right: 0;
 	transition: 250ms;
 	overflow: hidden;
-	width: 25%;
+	width: 50vw;
 	display: flex;
 	flex-direction: column;
 	justify-content: start;
@@ -57,5 +57,10 @@ nav button {
 @media (min-width: 768px) {
 	.smallScreenNavbar, .hamburgerMenu {
 		display: none;
+	}
+}
+@media (min-width: 430px) {
+	.hamburgerMenu {
+		width: 25vw;
 	}
 }
