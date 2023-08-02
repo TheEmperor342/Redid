@@ -12,7 +12,6 @@ import User from "@pages/user/user";
 import "@src/index.css";
 import Guild from "@pages/guild/guild";
 import ModifyPost from "@pages/modifyPost";
-import CreateGuild from "@pages/createGuild/createGuild";
 
 const errorsReducer = (
   state: IErrorsState[],
