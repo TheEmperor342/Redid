@@ -12,6 +12,7 @@ import User from "@pages/user/user";
 import "@src/index.css";
 import Guild from "@pages/guild/guild";
 import ModifyPost from "@pages/modifyPost";
+import CreateGuild from "@pages/createGuild/createGuild";
 
 const errorsReducer = (
   state: IErrorsState[],
@@ -50,6 +51,7 @@ export default () => {
           element={<ModifyPost newError={newError} />}
         />
         <Route path="/settings" element={<Settings newError={newError} />} />
+        {/*<Route path="/create-guild" element={<CreateGuild newError={newError} />} />*/}
         <Route path="/u/:username" element={<User newError={newError} />} />
         <Route path="/g/:guild" element={<Guild newError={newError} />} />
       </Routes>

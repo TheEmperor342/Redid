@@ -1,0 +1,8 @@
+.guildCreatorContainer {
+	display: grid;
+	place-items: center;
+}
+.guildCreatorWrapper {
+	display: grid;
+	place-items: center;
+}

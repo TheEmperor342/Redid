@@ -75,6 +75,12 @@ button {
   background: var(--primary);
   border: 1px solid var(--accent);
   transition: background 250ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 5px;
+  margin-block: 3px;
+  height: 25px;
 }
 .primary-btn:hover {
   background: var(--accent);

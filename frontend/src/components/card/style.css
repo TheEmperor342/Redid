@@ -26,11 +26,3 @@
 .clicked {
   color: red !important;
 }
-.cardUpDownButtons button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-inline: 5px;
-  margin-block: 3px;
-  height: 25px;
-}
