@@ -45,13 +45,19 @@ const SignUp: React.FC<GenericPageProps> = ({ newError }) => {
       });
 
       if (!res.ok) {
+				let error = "Unknown error occured";
+				switch (res.status) {
+					case 400:
+						error = "Content not provided";
+						break;
+					case 409:
+						error = "Username exists";
+						break;
+				}
         newError({
           id: self.crypto.randomUUID(),
           title: "Error",
-          error:
-            res.statusText === "Conflict"
-              ? "User exists"
-              : "Unknown error occured",
+          error,
         });
 
         return;
