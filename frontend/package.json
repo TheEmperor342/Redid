@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "redid-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,8 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "author": "TheEmperor342",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

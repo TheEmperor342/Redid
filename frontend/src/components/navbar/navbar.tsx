@@ -1,10 +1,10 @@
-import "./style.css";
 import { Link, useNavigate } from "react-router-dom";
 import API from "@src/apiPath";
 import { useContext, useState } from "react";
 import { TokenContext } from "@src/TokenContext";
 import { IErrorsState } from "@types";
 import { GiHamburgerMenu } from "react-icons/gi";
+import "./style.css";
 
 export default ({
 	newError,
@@ -29,28 +29,28 @@ export default ({
 					Authorization: `Bearer ${token}`,
 				},
 			});
+			const json = await res.json();
+			setToken(null);
 			if (res.status === 404) {
-				setToken(null);
 				navigate("/");
 				return;
 			}
 			if (!res.ok) {
 				newError({
 					id: self.crypto.randomUUID(),
-					title: "Couldn't log you out",
-					error: "Please try again later.",
+					title: "Error",
+					error: `${res.status}: ${json.message}`,
 				});
 
 				return;
 			}
-			setToken(null);
 			navigate("/");
 		} catch (err: any) {
 			console.error(err);
 			newError({
 				id: self.crypto.randomUUID(),
 				title: "Couldn't log you out",
-				error: "Please try again later.",
+				error: `Error: ${String(err)}`,
 			});
 		}
 	};
@@ -60,7 +60,7 @@ export default ({
 
 	return (
 		<nav>
-			<h3>Reddit Clone</h3>
+			<h3>REDID</h3>
 			<div className="largeScreenNavbar">
 				<Link to="/">
 					<p>Home</p>

@@ -72,7 +72,7 @@ const SignIn: React.FC<GenericPageProps> = ({ newError }) => {
     <div className="loginContainer">
       <div className="loginWrapper">
         <form onSubmit={handleSubmit} className="loginForm">
-          <h1>Sign in to RedditClone</h1>
+          <h1>Sign in to Redid</h1>
           <label>
             Username: <br />
             <input

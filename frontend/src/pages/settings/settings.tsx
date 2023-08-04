@@ -3,7 +3,7 @@ import { GenericPageProps } from "@types";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { TokenContext } from "@src/TokenContext";
 import API from "@src/apiPath";
-import { AiOutlineLink, AiFillDelete, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineLink, AiFillDelete } from "react-icons/ai";
 import CreateGuild from "@components/newGuild";
 import "./index.css";
 
