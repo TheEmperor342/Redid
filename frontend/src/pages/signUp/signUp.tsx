@@ -43,12 +43,13 @@ const SignUp: React.FC<GenericPageProps> = ({ newError }) => {
         },
         body: JSON.stringify({ username, password }),
       });
+      const json = await res.json();
 
       if (!res.ok) {
 				let error = "Unknown error occured";
 				switch (res.status) {
 					case 400:
-						error = "Content not provided";
+						error = json.message;
 						break;
 					case 409:
 						error = "Username exists";
@@ -62,7 +63,6 @@ const SignUp: React.FC<GenericPageProps> = ({ newError }) => {
 
         return;
       }
-      const json = await res.json();
       setToken(json.token);
       navigate("/");
     } catch (err: any) {

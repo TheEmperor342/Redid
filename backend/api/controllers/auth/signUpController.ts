@@ -12,6 +12,7 @@ import { errorHandler } from "../../utils";
  * }
  */
 const post = errorHandler(async (req: Request, res: Response) => {
+  res.setHeader("content-type", "application/json");
   // Get username and password from request
   if (!req.body.username || !req.body.password)
     throw new HttpError("username or password not provided", 400);
@@ -19,13 +20,17 @@ const post = errorHandler(async (req: Request, res: Response) => {
   const username = (req.body.username as String).trim();
   const password = (req.body.password as String).trim();
 
-  res.setHeader("content-type", "application/json");
-
   // Check if username and password are provided
   if (username === "" || password === "")
     throw new HttpError("username or password not provided", 400);
-
-  // Check if username already exists
+	if (password.length < 5)
+		throw new HttpError("Password too small", 400);
+	if (username.length < 3)
+		throw new HttpError("Username to small", 400);
+	if (password.length > 255)
+		throw new HttpError("Password too long", 400);
+	if (username.length > 16)
+		throw new HttpError("Username to long", 400);
   const usernameExists = await Accounts.exists({ username });
   if (usernameExists) throw new HttpError("username exists", 409);
 

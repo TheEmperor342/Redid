@@ -4,6 +4,10 @@
   width: 35vw;
   border: 1px solid var(--accent);
 }
+.cardContent {
+	word-wrap: break-word;
+	width: inherit;
+}
 .cardTopInfo {
   font-size: 0.7rem;
 }
@@ -19,9 +23,7 @@
   height: 2rem;
 }
 .cardTextContainer {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
+	padding: 1rem;
 }
 .clicked {
   color: red !important;
