@@ -26,7 +26,7 @@ app.use((error: HttpError, req: Request, res: Response, next: NextFunction) => {
 });
 
 mongoose
-  .connect(process.env.MONGODB_CONN_STR!, { dbName: "RedditClone" })
+  .connect(process.env.MONGODB_CONN_STR!, { dbName: "Redid" })
   .then((result) => {
     console.log("Connected to mongodb database");
     app.listen(3000, () => console.log("App listening on port 3000"));
