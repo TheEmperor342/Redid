@@ -1,4 +1,4 @@
-# Reddit clone
+# Redid
 WIP
 
 ## Stack
