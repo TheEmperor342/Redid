@@ -18,7 +18,6 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
     return <Navigate to="/sign-in" state={{ from: location }} replace />;
 
   const { postId } = useParams();
-  const [isError, setIsError] = useState<boolean>(false);
   const [dataState, setDataState] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const [original, setOriginal] = useState<{ [key: string]: string }>({});
@@ -27,7 +26,6 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
   useEffect(() => {
     getPost().then((post) => {
       if (tokenDecoded.username !== post.poster) {
-        setIsError(true);
         newError({
           id: self.crypto.randomUUID(),
           title: "Error",
@@ -57,7 +55,6 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
             ? "Post not found"
             : `${res.status}: ${json.message}`,
       });
-      setIsError(true);
       return;
     }
     return json.data;
