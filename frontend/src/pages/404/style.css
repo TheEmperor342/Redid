@@ -1,0 +1,10 @@
+._404 {
+	height: calc(100% - 3rem);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+._404 > h1 {
+	font-size: 7rem;
+}

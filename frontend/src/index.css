@@ -58,7 +58,7 @@ textarea {
 }
 a {
   text-decoration: none;
-  color: inherit;
+  color: var(--accent);
 }
 button {
   font: inherit;

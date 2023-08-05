@@ -9,124 +9,124 @@ import { TokenContext } from "@src/TokenContext";
 import { Link } from "react-router-dom";
 
 const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [likes, setLikes] = useState<number>(data.likes);
+	const [isLiked, setIsLiked] = useState<boolean>(false);
+	const [isError, setIsError] = useState<boolean>(false);
+	const [likes, setLikes] = useState<number>(data.likes);
 
-  const { token } = useContext(TokenContext);
-  const { username } =
-    token === null ? { username: null } : JSON.parse(atob(token.split(".")[1]));
+	const { token } = useContext(TokenContext);
+	const { username } =
+		token === null ? { username: null } : JSON.parse(atob(token.split(".")[1]));
 
-  useEffect(() => {
-    if (token !== null) isLikedByMe(data._id, token);
-  }, []);
+	useEffect(() => {
+		if (token !== null) isLikedByMe(data._id, token);
+	}, []);
 
-  const isLikedByMe = useCallback(async (id: string, token: string) => {
-    const res = await fetch(`${API}/api/posts/${id}/isLikedByMe`, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      setIsError(true);
-      return;
-    }
-    const json = await res.json();
-    setIsLiked(json.hasLiked);
-  }, []);
+	const isLikedByMe = useCallback(async (id: string, token: string) => {
+		const res = await fetch(`${API}/api/posts/${id}/isLikedByMe`, {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		if (!res.ok) {
+			setIsError(true);
+			return;
+		}
+		const json = await res.json();
+		setIsLiked(json.hasLiked);
+	}, []);
 
-  const likeOrDislike = async () => {
-    const path = `${API}/api/posts/${data._id}/${isLiked ? "dislike" : "like"}`;
+	const likeOrDislike = async () => {
+		const path = `${API}/api/posts/${data._id}/${isLiked ? "dislike" : "like"}`;
 
-    const res = await fetch(path, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const json = await res.json();
-    if (!res.ok) {
-      console.log(res, json);
-      newError({
-        id: self.crypto.randomUUID(),
-        title: "Error",
-        error: "Couldn't like post",
-      });
-      return;
-    }
-    setIsLiked(!isLiked);
+		const res = await fetch(path, {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		const json = await res.json();
+		if (!res.ok) {
+			console.log(res, json);
+			newError({
+				id: self.crypto.randomUUID(),
+				title: "Error",
+				error: "Couldn't like post",
+			});
+			return;
+		}
+		setIsLiked(!isLiked);
 
-    setLikes(json.likes);
-  };
+		setLikes(json.likes);
+	};
 
-  const handleDelete = async () => {
-    const res = await fetch(`${API}/api/posts/${data._id}`, {
-      method: "DELETE",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) {
-      newError({
-        id: self.crypto.randomUUID(),
-        title: "Error",
-        error: "Couldn't delete post",
-      });
-      return;
-    }
-    deletePost(data._id);
-  };
+	const handleDelete = async () => {
+		const res = await fetch(`${API}/api/posts/${data._id}`, {
+			method: "DELETE",
+			mode: "cors",
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		if (!res.ok) {
+			newError({
+				id: self.crypto.randomUUID(),
+				title: "Error",
+				error: "Couldn't delete post",
+			});
+			return;
+		}
+		deletePost(data._id);
+	};
 
-  return (
-    <div className="card">
-      <div className="cardTextContainer">
-        <p className="cardTopInfo">
-          {data.poster} - {data.guild}
-        </p>
-        <h2>{data.title}</h2>
-        <p className="cardContent">{data.content}</p>
-      </div>
-      <div className="cardUpDownButtons">
-        {token !== null ? (
-          <>
-            <button
-              onClick={likeOrDislike}
-              className={"primary-btn " + (isLiked ? "clicked" : "")}
-            >
-              {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
-            </button>
-            <BsDot />
-          </>
-        ) : (
-          <>
-            <AiOutlineHeart />
-            <BsDot />
-          </>
-        )}
-        <p>{isError ? "Couldn't fetch data" : likes}</p>
-        {data.poster === username ? (
-          <>
-            <BsDot />
-            <button onClick={handleDelete} className="primary-btn">
-              <MdDeleteForever />
-            </button>
-            <BsDot />
-            <Link to={`/modifyPost/${data._id}`}>
-              <button className="primary-btn">
-                <MdModeEditOutline />
-              </button>
-            </Link>
-          </>
-        ) : (
-          <></>
-        )}
-      </div>
-    </div>
-  );
+	return (
+		<div className="card">
+			<div className="cardTextContainer">
+				<p className="cardTopInfo">
+					{data.poster} - {data.guild}
+				</p>
+				<h2>{data.title}</h2>
+				<p className="cardContent">{data.content}</p>
+			</div>
+			<div className="cardUpDownButtons">
+				{token !== null ? (
+					<>
+						<button
+							onClick={likeOrDislike}
+							className={"primary-btn " + (isLiked ? "clicked" : "")}
+						>
+							{isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
+						</button>
+						<BsDot />
+					</>
+				) : (
+					<>
+						<AiOutlineHeart />
+						<BsDot />
+					</>
+				)}
+				<p>{isError ? "Couldn't fetch data" : likes}</p>
+				{data.poster === username ? (
+					<>
+						<BsDot />
+						<button onClick={handleDelete} className="primary-btn">
+							<MdDeleteForever />
+						</button>
+						<BsDot />
+						<Link to={`/modifyPost/${data._id}`}>
+							<button className="primary-btn">
+								<MdModeEditOutline />
+							</button>
+						</Link>
+					</>
+				) : (
+					<></>
+				)}
+			</div>
+		</div>
+	);
 };
 
 export default Card;
