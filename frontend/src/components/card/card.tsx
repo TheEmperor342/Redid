@@ -31,6 +31,7 @@ const Card: React.FC<CardProps> = ({ data, deletePost, newError }) => {
 		});
 		if (!res.ok) {
 			setIsError(true);
+			console.error(res);
 			return;
 		}
 		const json = await res.json();
