@@ -9,7 +9,7 @@
     "start": "node ./build/index.js"
   },
   "author": "TheEmperor342",
-  "license": "GPL-3.0-only",
+  "license": "AGPL-3.0-only",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",

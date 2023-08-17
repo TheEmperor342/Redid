@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "author": "TheEmperor342",
-  "license": "GPL-3.0-only",
+  "license": "AGPL-3.0-only",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
