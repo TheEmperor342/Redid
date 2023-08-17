@@ -34,7 +34,7 @@ const post: React.FC<GenericPageProps> = ({ newError }) => {
     token: string,
     title: string,
     textArea: string,
-    guild: string
+    guild: string,
   ) => {
     if (
       !token ||
@@ -149,7 +149,9 @@ const post: React.FC<GenericPageProps> = ({ newError }) => {
             />
           </label>
           <br />
-          <button type="submit" className="primary-btn">Post</button>
+          <button type="submit" className="primary-btn">
+            Post
+          </button>
         </form>
       </div>
     </div>

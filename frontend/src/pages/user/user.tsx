@@ -24,7 +24,7 @@ const User: React.FC<GenericPageProps> = ({ newError }) => {
 
   useEffect(() => {
     getUserPosts().then((json) =>
-      postsDispatch({ type: "populate", payload: json })
+      postsDispatch({ type: "populate", payload: json }),
     );
   }, []);
 

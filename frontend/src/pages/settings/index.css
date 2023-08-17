@@ -1,25 +1,25 @@
 .settingsWrapper {
-	padding-inline: 1rem;
-	height: calc(100% - 3rem);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  padding-inline: 1rem;
+  height: calc(100% - 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .settingsWrapper__grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-auto-rows: minmax(min-content, max-content);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: minmax(min-content, max-content);
 }
 .settingsWrapper__grid > * {
-	background: var(--accent-transparent);
-	min-width: 200px;
-	border: 1px solid var(--primary);
-	border-radius: 5px;
-	margin: 5px;
-	padding: 5px;
+  background: var(--accent-transparent);
+  min-width: 200px;
+  border: 1px solid var(--primary);
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
 }
 .settingsWrapper__grid__createGuild {
-	grid-column: span 2;
-	height: fit-content;
+  grid-column: span 2;
+  height: fit-content;
 }

@@ -45,16 +45,16 @@ const SignIn: React.FC<GenericPageProps> = ({ newError }) => {
 
       const json = await res.json();
       if (!res.ok) {
-				let error = "Unknown error occured";
-				
-				switch (res.status) {
-					case 400:
-						error = "Content not provided";
-						break;
-					case 404:
-						error = "User not found";
-						break;
-				}
+        let error = "Unknown error occured";
+
+        switch (res.status) {
+          case 400:
+            error = "Content not provided";
+            break;
+          case 404:
+            error = "User not found";
+            break;
+        }
         newError({
           id: self.crypto.randomUUID(),
           title: "Error",

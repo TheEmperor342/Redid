@@ -13,7 +13,7 @@ const Guild: React.FC<GenericPageProps> = ({ newError }) => {
 
   useEffect(() => {
     getGuildPosts().then((json) =>
-      postsDispatch({ type: "populate", payload: json })
+      postsDispatch({ type: "populate", payload: json }),
     );
   }, []);
 

@@ -101,28 +101,30 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
 
   return dataState.length !== 0 ? (
     <div className="postContainer">
-    <div className="postContainerWrapper">
-      <h1>Edit post</h1>
-      <form onSubmit={handleSubmit} className="postContainerForm">
-        <label>
-          Title: <br />
-          <input
-            type="text"
-            value={dataState[0].title}
-            onChange={handleTitleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Content: <br />
-          <textarea
-            className="inputPostContent"
-            value={dataState[0].content}
-            onChange={handleTextChange}
-          />
-        </label>
-        <button type="submit" className="primary-btn">Update Post</button>
-      </form>
+      <div className="postContainerWrapper">
+        <h1>Edit post</h1>
+        <form onSubmit={handleSubmit} className="postContainerForm">
+          <label>
+            Title: <br />
+            <input
+              type="text"
+              value={dataState[0].title}
+              onChange={handleTitleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Content: <br />
+            <textarea
+              className="inputPostContent"
+              value={dataState[0].content}
+              onChange={handleTextChange}
+            />
+          </label>
+          <button type="submit" className="primary-btn">
+            Update Post
+          </button>
+        </form>
       </div>
     </div>
   ) : (

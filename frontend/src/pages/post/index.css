@@ -15,7 +15,7 @@
 }
 .postContainerForm {
   display: flex;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   flex-direction: column;
   gap: 0.5rem;
 }

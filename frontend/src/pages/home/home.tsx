@@ -48,19 +48,20 @@ export default ({ newError }: GenericPageProps) => {
 
   return (
     <>
-      {isLoading && <Loading/>}
-      {error && <ErrorPage/>}
-      {
-        !error && !isLoading &&<div className="home">
+      {isLoading && <Loading />}
+      {error && <ErrorPage />}
+      {!error && !isLoading && (
+        <div className="home">
           {data.map((el) => (
             <Card
               key={el._id}
               data={el}
               deletePost={deletePost}
               newError={newError}
-            />))}
+            />
+          ))}
         </div>
-      }
+      )}
     </>
   );
 };
