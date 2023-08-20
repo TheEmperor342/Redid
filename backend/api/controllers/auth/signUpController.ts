@@ -48,7 +48,7 @@ const post = errorHandler(async (req: Request, res: Response) => {
   await tokenDoc.save();
 
   // Create tokens
-  const token = sign(username, accountDoc._id, tokenDoc._id);
+  const token = sign(accountDoc._id, tokenDoc._id);
   res.status(201).json({ status: "ok", token });
 });
 export default {

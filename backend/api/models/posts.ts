@@ -4,7 +4,7 @@ const postSchema = new mongoose.Schema({
 	posterId: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true,
-		ref: "accounts",
+		ref: "account",
 	},
 	guildId: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -15,17 +15,13 @@ const postSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	poster: {
-		type: String,
-		required: true,
-	},
 	title: { type: String, required: true },
 	content: { type: String, required: true },
 	likedBy: {
 		type: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "accounts",
+				ref: "account",
 			},
 		],
 		default: [],

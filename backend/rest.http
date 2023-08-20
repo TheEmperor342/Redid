@@ -1,4 +1,4 @@
-@token = <token>
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lcklkIjoiNjRlMjE4YmU3M2ExN2NjODE4ZTIxOGUzIiwidG9rZW5JZCI6IjY0ZTIxOGJlNzNhMTdjYzgxOGUyMThlNCIsImlhdCI6MTY5MjUzOTA3MX0.s0zoTt0Uplm-lugBiVwS0zABnLitVkT8XzaTr_SPpb4
 @port = 3000
 
 ### Sign up
@@ -39,7 +39,7 @@ Content-Type: application/json
 {
   "title": "What even is lorem ipsum 1",
   "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id interdum velit laoreet id donec ultrices tincidunt arcu non. Ac ut consequat semper viverra. Tellus in hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Tellus in metus vulputate eu scelerisque felis. Nec nam aliquam sem et tortor. Ultricies mi quis hendrerit dolor magna eget. Libero nunc consequat interdum varius. Tortor at risus viverra adipiscing at. Etiam sit amet nisl purus in mollis nunc sed. Auctor eu augue ut lectus arcu bibendum at varius vel. Molestie a iaculis at erat pellentesque adipiscing commodo elit. Ac auctor augue mauris augue neque gravida in fermentum et. Sed arcu non odio euismod. Tincidunt dui ut ornare lectus sit amet est placerat. Urna condimentum mattis pellentesque id nibh tortor. Facilisis leo vel fringilla est. Sit amet nisl purus in mollis nunc sed id.",
-  "guild": "test2"
+  "guild": "test"
 }
 
 ### Create Guild

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const guildSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "accounts",
+    ref: "account",
     required: true,
   },
   name: { type: String, required: true, unique: true },

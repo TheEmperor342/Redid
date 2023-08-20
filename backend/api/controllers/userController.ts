@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
 import { Guilds, Posts, Accounts } from "../models";
-import { jwtPayloadOverride, TPost, PostDoc, GuildDoc } from "../types";
+import {
+  jwtPayloadOverride,
+  TPost,
+  PostDoc,
+  GuildDoc,
+  PopulatedPostDoc,
+} from "../types";
 
-/* GET /api/user/guilds 
+/* GET /api/user/guilds
  * Authorization: Bearer <token>
  */
 const getGuilds = errorHandler(async (req: Request, res: Response) => {
@@ -21,24 +27,36 @@ const getGuilds = errorHandler(async (req: Request, res: Response) => {
 const getPosts = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
-  const netPosts = await Posts.find({
+  const netPosts = (await Posts.find({
     posterId: tokenDecoded.ownerId,
-  }).sort({ _id: -1 });
+  })
+    .sort({ _id: -1 })
+    .populate("posterId")) as PopulatedPostDoc[];
 
   res.status(200).json({
     status: "ok",
     data: (req.query.flattened === "true" ? true : false)
       ? netPosts.map((el) => ({
-        _id: el._id,
-        poster: el.poster,
-        guild: el.guild,
-        title: el.title,
-        content: el.content,
-        likes: el.likedBy.length,
-      }))
-      : beautifyPosts(netPosts as PostDoc[]),
+          _id: el._id,
+          poster: el.posterId.username,
+          guild: el.guild,
+          title: el.title,
+          content: el.content,
+          likes: el.likedBy.length,
+        }))
+      : beautifyPosts(netPosts),
   });
 });
+
+/*
+ * PATCH /api/user
+ * Authorization: Bearer <token>
+ * {
+ *    "username": "newUsername"
+ * }
+ */
+// To update username
+// TODO
 
 /* GET /api/user/:user/posts */
 const getUserPosts = errorHandler(async (req: Request, res: Response) => {
@@ -47,20 +65,22 @@ const getUserPosts = errorHandler(async (req: Request, res: Response) => {
   const userDoc = await Accounts.exists({ username: user });
   if (!userDoc) throw new HttpError("user not found", 404);
 
-  const netPosts = await Posts.find({ posterId: userDoc._id });
+  const netPosts = (await Posts.find({ posterId: userDoc._id }).populate(
+    "posterId",
+  )) as PopulatedPostDoc[];
 
   res.status(200).json({
     status: "ok",
     data: (req.query.flattened === "true" ? true : false)
       ? netPosts.map((el) => ({
-        _id: el._id,
-        poster: el.poster,
-        guild: el.guild,
-        title: el.title,
-        content: el.content,
-        likes: el.likedBy.length,
-      }))
-      : beautifyPosts(netPosts as PostDoc[]),
+          _id: el._id,
+          poster: el.posterId.username,
+          guild: el.guild,
+          title: el.title,
+          content: el.content,
+          likes: el.likedBy.length,
+        }))
+      : beautifyPosts(netPosts),
   });
 });
 
@@ -78,14 +98,14 @@ const getUserGuilds = errorHandler(async (req: Request, res: Response) => {
     .json({ status: "ok", data: userGuildsDocs.map((el) => el.name) });
 });
 
-const beautifyPosts = (netPosts: PostDoc[]): { [key: string]: TPost[] } => {
+const beautifyPosts = (netPosts: PopulatedPostDoc[]): { [key: string]: TPost[] } => {
   let posts: { [key: string]: TPost[] } = {};
 
   for (let post of netPosts) {
     const guild = post.guild;
     const postWithoutGuild: TPost = {
       _id: post._id,
-      poster: post.poster,
+      poster: post.posterId.username,
       title: post.title,
       content: post.content,
       likes: (post.likedBy ?? []).length,

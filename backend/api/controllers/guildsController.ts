@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
-import { jwtPayloadOverride } from "../types";
+import {
+  PopulatedGuildDoc,
+  PopulatedPostDoc,
+  jwtPayloadOverride,
+} from "../types";
 import { Guilds, Posts } from "../models";
 
 /* POST api/guilds
  * Authorization: Bearer <token>
  * Content-Type: application/json
- * 
+ *
  * {
  *   "name": string
  * }
@@ -74,13 +78,16 @@ const get = errorHandler(async (req: Request, res: Response) => {
   if (number < 1 || number > 15)
     throw new HttpError("number cannot be < 1 or > 15", 400);
 
-  const posts = await Guilds.find().sort({ _id: -1 }).limit(number);
+  const posts = (await Guilds.find()
+    .sort({ _id: -1 })
+    .limit(number)
+    .populate("owner")) as PopulatedGuildDoc[];
 
   res.status(200).json({
     status: "ok",
     data: posts.map((el) => {
       return {
-        owner: el.owner,
+        owner: el.owner.username,
         name: el.name,
       };
     }),
@@ -101,15 +108,16 @@ const getGuildPosts = errorHandler(async (req: Request, res: Response) => {
 
   if (guildExists === null) throw new HttpError("guild not found", 404);
 
-  const posts = await Posts.find({ guild: req.params.guild })
+  const posts = (await Posts.find({ guild: req.params.guild })
     .sort({ _id: -1 })
-    .limit(number);
+    .limit(number)
+    .populate("posterId")) as PopulatedPostDoc[];
 
   res.status(200).json({
     status: "ok",
     data: posts.map((el) => ({
       _id: el._id,
-      poster: el.poster,
+      poster: el.posterId.username,
       guild: el.guild,
       title: el.title,
       content: el.content,
