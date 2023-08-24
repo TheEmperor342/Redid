@@ -4,7 +4,6 @@ import { Guilds, Posts, Accounts } from "../models";
 import {
   jwtPayloadOverride,
   TPost,
-  PostDoc,
   GuildDoc,
   PopulatedPostDoc,
 } from "../types";
@@ -56,7 +55,31 @@ const getPosts = errorHandler(async (req: Request, res: Response) => {
  * }
  */
 // To update username
-// TODO
+const patchUsername = errorHandler(async (req: Request, res: Response) => {
+  const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+  const user = await Accounts.find({ _id: tokenDecoded.ownerId });
+  if (user.length === 0)
+    throw new HttpError(
+      "Cannot find account associated with the corresponding token",
+      400,
+    );
+
+  const newUsername = String(req.body.username);
+  if (newUsername === "undefined")
+    throw new HttpError("New username not provided", 400);
+
+  try {
+    await Accounts.findOneAndUpdate(
+      { _id: tokenDecoded.ownerId },
+      { username: newUsername },
+      { new: true },
+    );
+  } catch (err: any) {
+    if (err.code === 11000) throw new HttpError("Username exists", 409);
+    else throw new HttpError(String(err));
+  }
+  res.status(200).json({ status: "ok" });
+});
 
 /* GET /api/user/:user/posts */
 const getUserPosts = errorHandler(async (req: Request, res: Response) => {
@@ -98,7 +121,9 @@ const getUserGuilds = errorHandler(async (req: Request, res: Response) => {
     .json({ status: "ok", data: userGuildsDocs.map((el) => el.name) });
 });
 
-const beautifyPosts = (netPosts: PopulatedPostDoc[]): { [key: string]: TPost[] } => {
+const beautifyPosts = (
+  netPosts: PopulatedPostDoc[],
+): { [key: string]: TPost[] } => {
   let posts: { [key: string]: TPost[] } = {};
 
   for (let post of netPosts) {
@@ -117,4 +142,10 @@ const beautifyPosts = (netPosts: PopulatedPostDoc[]): { [key: string]: TPost[] }
 
   return posts;
 };
-export default { getGuilds, getPosts, getUserPosts, getUserGuilds };
+export default {
+  getGuilds,
+  getPosts,
+  getUserPosts,
+  getUserGuilds,
+  patchUsername,
+};
