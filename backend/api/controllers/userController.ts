@@ -11,6 +11,18 @@ import {
 /* GET /api/user/guilds
  * Authorization: Bearer <token>
  */
+const getUsername = errorHandler(async (req: Request, res: Response) => {
+  const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
+
+  const user = await Accounts.find({ _id: tokenDecoded.ownerId });
+  if (user.length === 0)
+    throw new HttpError(
+      "Cannot find account associated with the corresponding token",
+      400,
+    );
+
+  res.status(200).json({ status: "ok", username: user[0].username });
+});
 const getGuilds = errorHandler(async (req: Request, res: Response) => {
   const tokenDecoded: jwtPayloadOverride = res.locals.tokenDecoded;
 
@@ -64,9 +76,13 @@ const patchUsername = errorHandler(async (req: Request, res: Response) => {
       400,
     );
 
-  const newUsername = String(req.body.username);
-  if (newUsername === "undefined")
+  if (!req.body.username) throw new HttpError("New username not provided", 400);
+
+  const newUsername = (req.body.username as String).trim();
+  if (req.body.username === "")
     throw new HttpError("New username not provided", 400);
+  if (newUsername.length < 3) throw new HttpError("Username too small", 400);
+  if (newUsername.length > 16) throw new HttpError("Username too long", 413);
 
   try {
     await Accounts.findOneAndUpdate(
@@ -143,6 +159,7 @@ const beautifyPosts = (
   return posts;
 };
 export default {
+  getUsername,
   getGuilds,
   getPosts,
   getUserPosts,

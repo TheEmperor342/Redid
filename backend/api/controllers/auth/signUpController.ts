@@ -26,11 +26,11 @@ const post = errorHandler(async (req: Request, res: Response) => {
 	if (password.length < 5)
 		throw new HttpError("Password too small", 400);
 	if (username.length < 3)
-		throw new HttpError("Username to small", 400);
+		throw new HttpError("Username too small", 400);
 	if (password.length > 255)
-		throw new HttpError("Password too long", 400);
+		throw new HttpError("Password too long", 413);
 	if (username.length > 16)
-		throw new HttpError("Username to long", 400);
+		throw new HttpError("Username too long", 413);
   const usernameExists = await Accounts.exists({ username });
   if (usernameExists) throw new HttpError("username exists", 409);
 

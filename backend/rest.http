@@ -105,3 +105,16 @@ Authorization: Bearer {{token}}
   "title": "a title",
   "content": "a content"
 }
+
+### Get username
+GET http://localhost:{{port}}/api/user
+Authorization: Bearer {{token}}
+
+### Patch username
+PATCH http://localhost:{{port}}/api/user
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "username": "emperor"
+}
