@@ -49,6 +49,7 @@ const getPosts = errorHandler(async (req: Request, res: Response) => {
     data: (req.query.flattened === "true" ? true : false)
       ? netPosts.map((el) => ({
           _id: el._id,
+					posterId: el.posterId._id,
           poster: el.posterId.username,
           guild: el.guild,
           title: el.title,
@@ -113,6 +114,7 @@ const getUserPosts = errorHandler(async (req: Request, res: Response) => {
     data: (req.query.flattened === "true" ? true : false)
       ? netPosts.map((el) => ({
           _id: el._id,
+					posterId: el.posterId._id,
           poster: el.posterId.username,
           guild: el.guild,
           title: el.title,
@@ -146,6 +148,7 @@ const beautifyPosts = (
     const guild = post.guild;
     const postWithoutGuild: TPost = {
       _id: post._id,
+			posterId: post.posterId._id,
       poster: post.posterId.username,
       title: post.title,
       content: post.content,

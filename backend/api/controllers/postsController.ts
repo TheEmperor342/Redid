@@ -93,6 +93,7 @@ const get = errorHandler(async (req: Request, res: Response) => {
     data: posts.map((el) => {
       return {
         _id: el._id,
+				posterId: el.posterId._id,
         poster: el.posterId.username,
         guild: el.guild,
         title: el.title,
@@ -188,6 +189,7 @@ const getSpecificPostInfo = errorHandler(
       status: "ok",
       data: {
         _id: post._id,
+				posterId: post.posterId._id,
         poster: post.posterId.username,
         guild: post.guild,
         title: post.title,

@@ -88,6 +88,7 @@ const get = errorHandler(async (req: Request, res: Response) => {
     data: posts.map((el) => {
       return {
         owner: el.owner.username,
+				ownerId: el.owner._id,
         name: el.name,
       };
     }),
@@ -117,6 +118,7 @@ const getGuildPosts = errorHandler(async (req: Request, res: Response) => {
     status: "ok",
     data: posts.map((el) => ({
       _id: el._id,
+			posterId: el.posterId._id,
       poster: el.posterId.username,
       guild: el.guild,
       title: el.title,
