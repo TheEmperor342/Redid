@@ -3,7 +3,7 @@ import { IPost, OrganisedPostAction, OrganisedPostsReducer } from "@types";
 
 const reducer = (
   state: { [key: string]: Omit<IPost, "guild">[] },
-  action: OrganisedPostAction
+  action: OrganisedPostAction,
 ): { [key: string]: Omit<IPost, "guild">[] } => {
   switch (action.type) {
     case "populate":
@@ -28,7 +28,7 @@ const useOrganisedPostsReducer = (initialState: {
   [key: string]: Omit<IPost, "guild">[];
 }): [
   { [key: string]: Omit<IPost, "guild">[] },
-  React.Dispatch<OrganisedPostAction>
+  React.Dispatch<OrganisedPostAction>,
 ] => useReducer<OrganisedPostsReducer>(reducer, initialState);
 
 export default useOrganisedPostsReducer;
