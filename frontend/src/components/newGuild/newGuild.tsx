@@ -9,7 +9,6 @@ import {
 } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import API from "@src/apiPath";
-import "./style.css";
 
 const CreateGuild: React.FC<GenericPageProps> = ({ newError }) => {
   const location = useLocation();
@@ -49,7 +48,7 @@ const CreateGuild: React.FC<GenericPageProps> = ({ newError }) => {
               : `${res.status}: ${json.message}`,
         });
       }
-      navigate(`/g/${guildName}`);
+      else navigate(`/g/${guildName}`);
     } catch (err: any) {
       console.error(err);
       newError({
@@ -61,8 +60,8 @@ const CreateGuild: React.FC<GenericPageProps> = ({ newError }) => {
   }, []);
 
   return (
-    <div className="guildCreatorContainer">
-      <div className="guildCreatorWrapper">
+    <div className="grid-place-items-center">
+      <div className="grid-place-items-center">
         <form onSubmit={handleSubmit} className="loginForm">
           <h2>Create Guild</h2>
           <label>

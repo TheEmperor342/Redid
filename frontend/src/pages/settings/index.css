@@ -19,7 +19,7 @@
   margin: 5px;
   padding: 5px;
 }
-.settingsWrapper__grid__createGuild {
+.settingsWrapper__grid_span2 {
   grid-column: span 2;
   height: fit-content;
 }
