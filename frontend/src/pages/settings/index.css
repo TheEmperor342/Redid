@@ -19,6 +19,11 @@
   margin: 5px;
   padding: 5px;
 }
+@media screen and (max-width: 500px) {
+  .settingsWrapper__grid > * {
+    min-width: auto;
+  }
+}
 .settingsWrapper__grid_span2 {
   grid-column: span 2;
   height: fit-content;
