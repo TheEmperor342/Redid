@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { GenericPageProps, TokenContent } from "@types";
 import { TokenContext } from "@src/TokenContext";
 import {
@@ -9,6 +15,7 @@ import {
 } from "react-router-dom";
 import { IPost } from "@types";
 import API from "@src/apiPath";
+import Loading from "@components/loading/loading";
 
 const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
   const { token } = useContext(TokenContext);
@@ -21,11 +28,14 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
   const [dataState, setDataState] = useState<IPost[]>([]);
   const navigate = useNavigate();
   const [original, setOriginal] = useState<{ [key: string]: string }>({});
-  const tokenDecoded: TokenContent = JSON.parse(atob(token.split(".")[1]));
+  const tokenDecoded: TokenContent = useMemo(
+    () => JSON.parse(atob(token.split(".")[1])),
+    [token],
+  );
 
   useEffect(() => {
     getPost().then((post) => {
-      if (tokenDecoded.username !== post.poster) {
+      if (tokenDecoded.ownerId !== post.posterId) {
         newError({
           id: self.crypto.randomUUID(),
           title: "Error",
@@ -128,7 +138,7 @@ const ModifyPost: React.FC<GenericPageProps> = ({ newError }) => {
       </div>
     </div>
   ) : (
-    <h1>Loading</h1>
+    <Loading />
   );
 };
 

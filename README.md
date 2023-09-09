@@ -1,3 +1,3 @@
 # Redid
-A Reddit Clone (WIP) with the MERN stack
 
+A Reddit Clone (WIP) with the MERN stack

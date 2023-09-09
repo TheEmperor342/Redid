@@ -1,22 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Navigate, useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { GenericPageProps } from "@types";
 import OrganisedPostsView from "@components/organisedPostsView";
 import useOrganisedPostsReducer from "@hooks/useOrganisedPostReducer";
 import API from "@src/apiPath";
-import { TokenContext } from "@src/TokenContext";
+import Loading from "@components/loading/loading";
 
 const User: React.FC<GenericPageProps> = ({ newError }) => {
-  const { token } = useContext(TokenContext);
-  const location = useLocation();
-  let loggedInUsername = undefined;
-  if (token !== null)
-    loggedInUsername = JSON.parse(atob(token.split(".")[1])).username;
-
   const { username } = useParams();
-
-  if (loggedInUsername === username)
-    return <Navigate to="/settings" state={{ from: location }} replace />;
 
   const [posts, postsDispatch] = useOrganisedPostsReducer({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -53,7 +44,7 @@ const User: React.FC<GenericPageProps> = ({ newError }) => {
       <h1> Not found </h1>
     )
   ) : (
-    <h1>Loading</h1>
+    <Loading />
   );
 };
 

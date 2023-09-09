@@ -40,7 +40,7 @@ const post = errorHandler(async (req: Request, res: Response) => {
   const tokensDoc = new Tokens({ owner: account._id });
   await tokensDoc.save();
 
-  const token = sign(username, account._id, tokensDoc._id);
+  const token = sign(account._id, tokensDoc._id);
 
   res.status(200).json({ status: "ok", token });
 });

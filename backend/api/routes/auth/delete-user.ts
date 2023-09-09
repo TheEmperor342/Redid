@@ -1,6 +1,6 @@
 import { Router } from "express";
-import deleteUserController from "../../controllers/auth/deleteUserController";
 import { verifyTokenM } from "../../middlewares";
+import deleteUserController from "../../controllers/auth/deleteUserController";
 const router = Router();
 
 router.delete("/", verifyTokenM, deleteUserController.delete);

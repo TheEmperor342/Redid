@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Card from "@components/card";
 import API from "@src/apiPath";
+import Loading from "@components/loading/loading";
 
 const Guild: React.FC<GenericPageProps> = ({ newError }) => {
   const { guild } = useParams();
@@ -46,10 +47,10 @@ const Guild: React.FC<GenericPageProps> = ({ newError }) => {
         ))}
       </div>
     ) : (
-      <h1> Loading</h1>
+      <Loading />
     )
   ) : (
-    <h1>Loading</h1>
+    <Loading />
   );
 };
 

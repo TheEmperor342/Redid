@@ -38,7 +38,7 @@ export default ({ newError }: GenericPageProps) => {
     newError({
       id: self.crypto.randomUUID(),
       title: "Couldn't load posts",
-      error: "Couldn't fetch posts from the servers. Maybe try again.",
+      error: "Couldn't fetch posts from the server. Maybe try again.",
     });
   }, [error]);
 

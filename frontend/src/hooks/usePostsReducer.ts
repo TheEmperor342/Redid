@@ -13,7 +13,7 @@ const reducer = (state: IPost[], action: PostsAction): IPost[] => {
 };
 const usePostsReducer = (
   initialState: IPost[],
-): [IPost[], React.Dispatch<PostsAction>] => 
+): [IPost[], React.Dispatch<PostsAction>] =>
   useReducer<PostsReducer>(reducer, initialState);
 
 export default usePostsReducer;

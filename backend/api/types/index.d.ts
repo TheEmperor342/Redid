@@ -9,23 +9,30 @@ export type jwtPayloadOverride = jwt.JwtPayload & {
 
 export interface TPost {
   _id: mongoose.Types.ObjectId;
+	posterId: mongoose.Types.ObjectId;
   poster: string;
   title: string;
   content: string | undefined;
   likes: number;
-};
+}
 
 export interface PostDoc extends mongoose.Document {
   posterId: mongoose.Types.ObjectId;
   guildId: mongoose.Types.ObjectId;
-  poster: string;
   guild: string;
   title: string;
   content: string | undefined;
   likedBy: mongoose.Types.ObjectId[];
-};
+}
 
 export interface GuildDoc extends mongoose.Document {
   owner: mongoose.Types.ObjectId;
   name: string;
-};
+}
+
+export interface AccountDoc extends mongoose.Document {
+  username: string;
+}
+
+export type PopulatedPostDoc = PostDoc & { posterId: AccountDoc };
+export type PopulatedGuildDoc = GuildDoc & { owner: AccountDoc };

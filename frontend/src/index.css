@@ -112,3 +112,16 @@ button {
 .root {
   position: relative;
 }
+/** UTILS **/
+
+.grid-place-items-center {
+	display: grid;
+	place-items: center;
+}
+
+@media screen and (max-width: 500px) {
+  .primary-btn:not(nav button, .cardUpDownButtons button) {
+    min-height: 40px;
+    min-width: 40px;
+  }
+}

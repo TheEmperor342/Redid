@@ -1,6 +1,6 @@
 import { Router } from "express";
-import postsController from "../controllers/postsController";
 import { verifyTokenM } from "../middlewares";
+import postsController from "../controllers/postsController";
 const router = Router();
 
 router.get("/", postsController.get);

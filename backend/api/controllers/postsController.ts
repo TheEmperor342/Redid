@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HttpError, errorHandler } from "../utils";
-import { jwtPayloadOverride } from "../types";
+import { PopulatedPostDoc, jwtPayloadOverride } from "../types";
 import { Posts, Guilds } from "../models";
 import mongoose from "mongoose";
 
@@ -42,7 +42,6 @@ const post = errorHandler(async (req: Request, res: Response) => {
   const postDoc = new Posts({
     posterId: tokenDecoded.ownerId,
     guildId: guildExists._id,
-    poster: tokenDecoded.username,
     guild,
     title,
     content,
@@ -84,14 +83,18 @@ const get = errorHandler(async (req: Request, res: Response) => {
   if (number < 1 || number > 15)
     throw new HttpError("number cannot be < 1 or > 15", 400);
 
-  const posts = await Posts.find().sort({ _id: -1 }).limit(number);
+  const posts: PopulatedPostDoc[] = await Posts.find()
+    .sort({ _id: -1 })
+    .limit(number)
+    .populate("posterId");
 
   res.status(200).json({
     status: "ok",
     data: posts.map((el) => {
       return {
         _id: el._id,
-        poster: el.poster,
+				posterId: el.posterId._id,
+        poster: el.posterId.username,
         guild: el.guild,
         title: el.title,
         content: el.content,
@@ -113,7 +116,7 @@ const likePost = errorHandler(async (req: Request, res: Response) => {
     const updatedLikeDoc = await Posts.findOneAndUpdate(
       { _id: req.params.id },
       { $addToSet: { likedBy: tokenDecoded.ownerId } },
-      { new: true }
+      { new: true },
     );
     if (updatedLikeDoc === null) throw new HttpError("Post not found", 404);
 
@@ -141,7 +144,7 @@ const dislikePost = errorHandler(async (req: Request, res: Response) => {
     const updatedLikeDoc = await Posts.findOneAndUpdate(
       { _id: req.params.id },
       { $pull: { likedBy: tokenDecoded.ownerId } },
-      { new: true }
+      { new: true },
     );
     if (updatedLikeDoc === null) throw new HttpError("Post not found", 404);
 
@@ -176,7 +179,9 @@ const isLikedByMe = errorHandler(async (req: Request, res: Response) => {
 /* GET /api/posts/:id */
 const getSpecificPostInfo = errorHandler(
   async (req: Request, res: Response) => {
-    const post = await Posts.findOne({ _id: req.params.id });
+    const post = (await Posts.findOne({ _id: req.params.id }).populate(
+      "posterId",
+    )) as PopulatedPostDoc;
 
     if (post === null) throw new HttpError("post not found", 404);
 
@@ -184,14 +189,15 @@ const getSpecificPostInfo = errorHandler(
       status: "ok",
       data: {
         _id: post._id,
-        poster: post.poster,
+				posterId: post.posterId._id,
+        poster: post.posterId.username,
         guild: post.guild,
         title: post.title,
         content: post.content,
         likes: post.likedBy.length,
       },
     });
-  }
+  },
 );
 
 /* PATCH /api/posts/:id
@@ -213,7 +219,7 @@ const patch = errorHandler(async (req: Request, res: Response) => {
   if (postExists === null)
     throw new HttpError(
       "Either post doesn't exist, or you aren't the owner of the post",
-      404
+      404,
     );
 
   const data: { [key: string]: string | undefined } = {

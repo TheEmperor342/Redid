@@ -35,6 +35,7 @@ export interface OrganisedPostsViewProps {
 // ****************
 export interface IPost {
   _id: string;
+	posterId: string;
   poster: string;
   guild: string;
   title: string;
